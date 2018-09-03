@@ -13,6 +13,7 @@ Egyszerűbb esetben csak egyetlen forrásfájlból áll a program, melynek szerk
 
 // a forráskód elején a program által használt include-ok kellenek, pl:
 #include <stdio.h>
+#include <conio.h>
 // további inculde-ok
 // ...
 
@@ -24,7 +25,7 @@ int main(){
 	// további tasítások
 	// ...
 	
-	getchar(); // ne lépjen ki egyből a program
+	_getch(); // ne lépjen ki egyből a program
 	
 	return 0; // <- mindig kell, ez jelzi program sikeres futását 
 }
