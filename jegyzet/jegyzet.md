@@ -8,6 +8,9 @@ A Számítógépek programozásának alapjai c. tárgyhoz készült jegyzet.
 Egyszerűbb esetben csak egyetlen forrásfájlból áll a program, melynek szerkezete az alábbi: 
 
 ```C
+// Visual Studio használatakor ez a sor is kell:
+#define _CRT_SECURE_NO_WARNINGS
+
 // a forráskód elején a program által használt include-ok kellenek, pl:
 #include <stdio.h>
 // további inculde-ok
@@ -20,6 +23,8 @@ int main(){
 	printf("Hello World!\n");
 	// további tasítások
 	// ...
+	
+	getchar(); // ne lépjen ki egyből a program
 	
 	return 0; // <- mindig kell, ez jelzi program sikeres futását 
 }
