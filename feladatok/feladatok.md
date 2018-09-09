@@ -161,7 +161,7 @@ printf("Az intervallum hossza: %d:%d:%d\n", masodpercek/3600, masodpercek/60%60,
 ```
 </details>
 
-### Nagybetűsító
+### Nagybetűsítő
 
 A program kérjen be egy kisbetűt és írja ki a beírt betűt nagybetűsítve. (Megjegyzés: scanf-fel való karakter beolvasásánál is kell entert ütni a bevitelhez.)
 <details>
@@ -727,5 +727,243 @@ for(int sakk_y=1; sakk_y<=sakk_m; sakk_y++){
         printf("\n");
     }
 }
+```
+</details>
+
+### Osztók
+
+Kérjen be a program egy számot, majd írja ki az összes osztójá és osztóinak számát.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// egyesével oszthatóság vizsgálata
+int osztok_szama = 0;
+for(int i=1; i<=szam; i++){
+    if(szam%i == 0){
+        printf("%d\n", i);
+        osztok_szama++;
+    }
+}
+
+printf("osztok szama: %d\n", osztok_szama);
+```
+</details>
+
+### Osztópárok
+
+A program ezúttal az osztópárokat írja ki.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// egyesével oszthatóság vizsgálata
+for(int i=1; i*i<=szam; i++){
+    if(szam%i == 0){
+        printf("%d\t%d\n", i, szam/i);
+    }
+}
+```
+</details>
+
+### Prímteszt
+
+A program döntse el egy bekért számról, hogy prímszám-e.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// osztók számlálása
+int osztok_szama = 0;
+for(int i=1; i<=szam; i++){
+    if(szam%i == 0){
+        osztok_szama++;
+    }
+}
+
+// prímszám definíció szerint: két osztója van
+if(osztok_szama==2)
+    printf("primszam");
+else
+    printf("nem primszam");
+```
+</details>
+<details>
+ <summary>hatékonyabb megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// osztók számlálása (páronként!)
+// így sajnos az 1-et is prímszámnak veszi
+int osztok_szama = 0;
+for(int i=1; i*i<=szam; i++){
+    if(szam%i == 0){
+        osztok_szama+=2;
+    }
+}
+
+// prímszám definíció szerint: két osztója van
+// 1-et külön kezeljük
+if(osztok_szama==2 && szam!=1)
+    printf("primszam");
+else
+    printf("nem primszam");
+```
+</details>
+
+### Első 100 prímszám
+
+A program írja ki a 100 első prímszámot.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// érdemes 2-től indítani a számlálást
+int szam=2;
+int primek_szama=0;
+while(primek_szama<100){
+    // osztók számlálása (páronként!)
+    int osztok_szama = 0;
+    for(int i=1; i*i<=szam; i++){
+        if(szam%i == 0){
+            osztok_szama+=2;
+        }
+    }
+
+    // prímteszt def. szerint
+    if(osztok_szama==2){
+        printf("%d\n", szam);
+        primek_szama++;
+    }
+    
+    // következő számra lépés
+    szam++;
+}
+```
+</details>
+
+### Prím, félprím, nemprím
+
+A bekért számról döntse el a program, hogy prím, félpím (két prím szorzata) vagy nem prím.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// osztók számlálása
+int osztok_szama = 0;
+for(int i=1; i<=szam; i++){
+    if(szam%i == 0){
+        osztok_szama++;
+    }
+}
+
+// eldöntés switch-csel
+switch(osztok_szama){
+    case 2:
+        printf("prim\n");
+        break;
+    case 4:
+        printf("felprim\n");
+        break;
+    default:
+        printf("nem prim\n");
+        break;
+}
+```
+</details>
+
+### Prímtényezős felbontás
+
+Határozzuk meg egy szám prímtényezőit az alábbi mintának megfelelően.
+<details>
+<summary>működési példa:</summary>
+ 
+```
+irj be egy szamot: 840
+       840|2
+       420|2
+       210|2
+       105|3
+        35|5
+         7|7
+         1|
+```
+</details>
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// addig osztogatjuk, amíg 1 nem lesz belőle
+while(szam != 1){
+    // megkeressük a legkisebb osztóját
+    int oszto=2;
+    while(szam%oszto!=0)
+        oszto++;
+        
+    // kiírjuk
+    printf("%10d|%d\n", szam, oszto);
+    
+    // elosztjuk vele
+    szam /= oszto;
+}
+
+// utolsó sor kiírása
+printf("         1|\n");
+```
+</details>
+
+### Törtszámok II.
+
+A program kérjen be két törtszámot (számlálóval és nevezővel), majd írja ki összegüket tört alakban, egyszerűsítve!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// számok bekérése
+int szamlalo_1, nevezo_1, szamlalo_2, nevezo_2;
+printf("egyik szam szamlaloja: "); scanf("%d", &szamlalo_1);
+printf("egyik szam nevezoje: "); scanf("%d", &nevezo_1);
+printf("masik szam szamlaloja: "); scanf("%d", &szamlalo_2);
+printf("masik szam nevezoje: "); scanf("%d", &nevezo_2);
+
+// összeg számítása
+int szamlalo_osszeg = szamlalo_1*nevezo_2 + szamlalo_2*nevezo_1;
+int nevezo_osszeg = nevezo_1*nevezo_2;
+
+// legnagyobb közös osztó számítása
+int lnko=1;
+for(int i=2; i<=nevezo_osszeg; i++)
+    if(nevezo_osszeg%i == 0 && szamlalo_osszeg%i == 0)
+        lnko = i;
+
+// tört egyszerűsítése
+szamlalo_osszeg /= lnko;
+nevezo_osszeg /= lnko;
+
+// eredmény kiírása
+printf("%d/%d + %d/%d = %d/%d\n", szamlalo_1, nevezo_1, szamlalo_2, nevezo_2, szamlalo_osszeg, nevezo_osszeg);
 ```
 </details>
