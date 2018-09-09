@@ -732,7 +732,7 @@ for(int sakk_y=1; sakk_y<=sakk_m; sakk_y++){
 
 ### Osztók
 
-Kérjen be a program egy számot, majd írja ki az összes osztójá és osztóinak számát.
+Kérjen be a program egy számot, majd írja ki az összes osztóját és osztóinak számát.
 <details>
  <summary>megoldás:</summary>
  
