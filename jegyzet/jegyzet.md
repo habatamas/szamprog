@@ -22,7 +22,7 @@ int main(){
 	/* itt kezdődik a végrehajtás,
 	    ide kerül a program "lényegi" része, pl: */
 	printf("Hello World!\n");
-	// további tasítások
+	// további utasítások
 	// ...
 	
 	_getch(); // ne lépjen ki egyből a program
