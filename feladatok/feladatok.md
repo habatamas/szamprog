@@ -967,3 +967,30 @@ nevezo_osszeg /= lnko;
 printf("%d/%d + %d/%d = %d/%d\n", szamlalo_1, nevezo_1, szamlalo_2, nevezo_2, szamlalo_osszeg, nevezo_osszeg);
 ```
 </details>
+
+### Számjegyek összege
+
+A program kérjen be egy egész számot, majd írja ki számjegyeinek összegét. Negatív számok esetén is működjön!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám bekérése
+int szam;
+printf("irj be egy szamot: "); scanf("%d", &szam);
+
+// negatív szám esetén pozitívvá alakítás
+if(szam<0)
+    szam *= -1;
+    
+// számjegyenként feldolgozzuk
+int osszeg=0;
+while(szam>0){
+    osszeg += szam%10;
+    szam /= 10;
+}
+
+// eredmény kiírása
+printf("szamjegyek osszege: %d\n", osszeg);
+```
+</details>
