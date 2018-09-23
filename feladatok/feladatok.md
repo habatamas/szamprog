@@ -1013,7 +1013,7 @@ for(int i=2; i<10; i++)
 
 ### Tömb beolvasása felhasználótól
 
-A program kérje be a felhasználótól, hogy hány darab (valós) számot kíván megadni, majd olvassa is be a számokat egy megfelelő tömbbe. A beírt számokat ezután írja ki a minta szerint. 
+A program kérjen be 10 valós számot a felhasználótól és azokat tárolja tömbben.
 <details>
  <summary>működési példa:</summary>
  
@@ -1036,22 +1036,12 @@ A beirt szamok:
  <summary>megoldás:</summary>
  
 ```C
-// tömb méretének bekérése
-int meret;
-printf("Hany szamot akarsz beirni? "); scanf("%d", &meret);
-
-// számok beolvasása
-double szamok[meret];
-for(int i=0; i<meret; i++){
-    double uj_szam;
-    printf("%d. szam: ", i+1); scanf("%lf", &uj_szam);
-    szamok[i] = uj_szam;
-}
-
-// számok kiírása
-printf("A beirt szamok:\n");
-for(int i=0; i<meret; i++){
-    printf("%g\n", szamok[i]);
+double szamok[10];
+int meret = 10;
+for (int i = 0; i < meret; i++) {
+	double uj_szam;
+	printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
+	szamok[i] = uj_szam;
 }
 ```
 </details>
@@ -1150,40 +1140,40 @@ for(int meddig=meret-2; meddig>=0; meddig--){
 
 ### Medián
 
-A program olvasson be egy tömböt a felhasználótól, majd írja ki a mediánt.
+A program kérjen be 10 valós számot, majd írja ki a mediánt.
 <details>
  <summary>megoldás:</summary>
  
 ```C
-// tömb méretének bekérése
-int meret;
-printf("Hany szamot akarsz beirni? "); scanf("%d", &meret);
-
 // számok beolvasása
-double szamok[meret];
-for(int i=0; i<meret; i++){
-    double uj_szam;
-    printf("%d. szam: ", i+1); scanf("%lf", &uj_szam);
-    szamok[i] = uj_szam;
+double szamok[10];
+int meret=10;
+for (int i = 0; i < meret; i++) {
+	double uj_szam;
+	printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
+	szamok[i] = uj_szam;
 }
 
 // rendezés
-for(int meddig=meret-2; meddig>=0; meddig--){
-    for(int i=0; i<=meddig; i++){
-        if(szamok[i] > szamok[i+1]){
-            double tmp = szamok[i];
-            szamok[i] = szamok[i+1];
-            szamok[i+1] = tmp;
-        }
-    }
+for (int meddig = meret - 2; meddig >= 0; meddig--) {
+	for (int i = 0; i <= meddig; i++) {
+		if (szamok[i] > szamok[i + 1]) {
+			double tmp = szamok[i];
+			szamok[i] = szamok[i + 1];
+			szamok[i + 1] = tmp;
+		}
+	}
 }
 
 // medián számítás definíció szerint
+/* Persze tudjuk, hogy 10 elemünk van, de általános esetben
+   szükséges az esetszétválasztás páros és páratlan elemszámra. */
 double median;
-if(meret%2==0){
-    median = (szamok[meret/2-1]+szamok[meret/2])/2; // középső kettő átlaga
-} else {
-    median = szamok[(meret-1)/2]; // középső elem
+if (meret % 2 == 0) {
+	median = (szamok[meret / 2 - 1] + szamok[meret / 2]) / 2; // középső kettő átlaga
+}
+else {
+	median = szamok[(meret - 1) / 2]; // középső elem
 }
 
 printf("median: %g\n", median);
@@ -1261,79 +1251,77 @@ int main(){
 
 ### 3D pontok távolsága
 
-A program kérjen be a felhasználótól 3D-s pontok koordinátáit, ezután írja ki a legközelebbi két pont koordinátáit. A pontokat struktúrával kell reprezentálni.
+A program kérjen be a felhasználótól 5 darab 3D-s pont koordinátáit, ezután írja ki a legközelebbi két pont koordinátáit. A pontokat struktúrával kell reprezentálni.
 <details>
  <summary>működési példa:</summary>
  
 ```C
-Hany pontot akarsz megadni? 4
 1. pont: 6; 9.2; -1
 2. pont: 3; 4; 6
 3. pont: 0; 1; -1
 4. pont: 9; 4; -1
+5. pont: 5; 6; 3
 a ket legkozelebbi pont:
-(6; 9.2; -1)
-(9; 4; -1)
+(3; 4; 6)
+(5; 6; 3)
 ```
 </details><details>
  <summary>megoldás:</summary>
  
 ```C
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <conio.h>
 
 // 3D-s pont struktúrája
 struct pont3d {
-    double x,y,z;
+	double x, y, z;
 };
 
-// főprogram
-int main(){
-    // tömb méretének bekérése
-    int meret;
-    printf("Hany pontot akarsz megadni? "); scanf("%d", &meret);
+int main() {
+	// pontok beolvasása
+	struct pont3d pontok[5];
+	for (int i = 0; i < 5; i++) {
+		double x, y, z;
+		printf("%d. pont: ", i + 1); scanf("%lf;%lf;%lf", &x, &y, &z);
+		pontok[i].x = x;
+		pontok[i].y = y;
+		pontok[i].z = z;
+	}
 
-    // pontok beolvasása
-    struct pont3d pontok[meret];
-    for(int i=0; i<meret; i++){
-        double x,y,z;
-        printf("%d. pont: ", i+1); scanf("%lf;%lf;%lf", &x, &y, &z);
-        pontok[i].x=x;
-        pontok[i].y=y;
-        pontok[i].z=z;
-    }
+	// a legelső csúcstartó pontpár az első kettő
+	struct pont3d egyik = pontok[0], masik = pontok[1];
+	/* euklideszi távolság kell, de a minimumkereséshez nem is kell belőle
+	   gyököt vonni */
+	double min_tavolsag_negyzet = (egyik.x - masik.x)*(egyik.x - masik.x) +
+		(egyik.y - masik.y)*(egyik.y - masik.y) +
+		(egyik.z - masik.z)*(egyik.z - masik.z);
 
-    // a legelső csúcstartó pontpár az első kettő
-    struct pont3d egyik=pontok[0], masik=pontok[1];
-    /* euklideszi távolság kell, de a minimumkereséshez nem is kell belőle
-       gyököt vonni */
-    double min_tavolsag_negyzet = (egyik.x-masik.x)*(egyik.x-masik.x) +
-                                  (egyik.y-masik.y)*(egyik.y-masik.y) +
-                                  (egyik.z-masik.z)*(egyik.z-masik.z);
-    
-    // összes kombináció tesztelése
-    for(int i=0; i<meret; i++){
-        for(int j=i+1; j<meret; j++){
-            // távolságnégyzet kiszámítása az új pontpárra
-            double tavolsag_negyzet =
-                (pontok[i].x-pontok[j].x)*(pontok[i].x-pontok[j].x) +
-                (pontok[i].y-pontok[j].y)*(pontok[i].y-pontok[j].y) +
-                (pontok[i].z-pontok[j].z)*(pontok[i].z-pontok[j].z);
-            
-            // ha kisebb, akkor az új pontpár lesz a csúcstartó
-            if(tavolsag_negyzet < min_tavolsag_negyzet){
-                egyik = pontok[i];
-                masik = pontok[j];
-                min_tavolsag_negyzet = tavolsag_negyzet;
-            }
-        }
-    }
+	// összes kombináció tesztelése
+	for (int i = 0; i < 5; i++) {
+		for (int j = i + 1; j < 5; j++) {
+			// távolságnégyzet kiszámítása az új pontpárra
+			double tavolsag_negyzet =
+				(pontok[i].x - pontok[j].x)*(pontok[i].x - pontok[j].x) +
+				(pontok[i].y - pontok[j].y)*(pontok[i].y - pontok[j].y) +
+				(pontok[i].z - pontok[j].z)*(pontok[i].z - pontok[j].z);
 
-    // eredmény kiírása
-    printf("a ket legkozelebbi pont:\n");
-    printf("(%g; %g; %g)\n", egyik.x, egyik.y, egyik.z);
-    printf("(%g; %g; %g)\n", masik.x, masik.y, masik.z);
+			// ha kisebb, akkor az új pontpár lesz a csúcstartó
+			if (tavolsag_negyzet < min_tavolsag_negyzet) {
+				egyik = pontok[i];
+				masik = pontok[j];
+				min_tavolsag_negyzet = tavolsag_negyzet;
+			}
+		}
+	}
 
-    return 0;
+	// eredmény kiírása
+	printf("a ket legkozelebbi pont:\n");
+	printf("(%g; %g; %g)\n", egyik.x, egyik.y, egyik.z);
+	printf("(%g; %g; %g)\n", masik.x, masik.y, masik.z);
+
+	_getch();
+	return 0;
 }
 ```
 </details>
@@ -1357,7 +1345,9 @@ szorzat: 48+44i
  <summary>megoldás:</summary>
  
 ```C
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <conio.h>
 
 // komplex számot leíró struktúra
 struct komplex {
@@ -1391,6 +1381,7 @@ int main(){
     else
         printf("szorzat: %g+%gi\n", szorzat.re, szorzat.im);
     
+	_getch();
     return 0;
 }
 ```
