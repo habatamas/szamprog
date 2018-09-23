@@ -1018,18 +1018,27 @@ A program kérjen be 10 valós számot a felhasználótól és azokat tárolja t
  <summary>működési példa:</summary>
  
 ```
-Hany szamot akarsz beirni? 5
 1. szam: 4
 2. szam: -65
 3. szam: 3.141592
 4. szam: 6e23
-5. szam: 9999    
+5. szam: 9999
+6. szam: 123
+7. szam: 345
+8. szam: 456
+9. szam: 567
+10. szam: 678678
 A beirt szamok:
 4
 -65
 3.14159
 6e+23
 9999
+123
+123
+345
+456
+678678
 ```
 </details>
 <details>
