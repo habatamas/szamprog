@@ -1190,6 +1190,75 @@ printf("median: %g\n", median);
 ```
 </details>
 
+### Franciakártya struktúrája és kiírása
+
+Definiáljunk egy franciakártyát leíró struktúrát. A főpprogramban legyen egy ilyen struktúra típusú változó valamilyen tetszőleges kezdeti értékkel. A program írja ki a lapot úgy, hogy bármilyen kezdeti értékre működjön.
+Színek: treff, káró, kőr, pikk.
+Számok: 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <conio.h>
+
+// kártyát leíró struktúra
+struct kartya {
+    int szin; // szín: 0=treff 1=karo 2=kor 3=pikk
+    int szam; // szám: 2..10=2..10 11=J 12=Q 13=K 14=A
+};
+
+int main(){
+	// adott egy kártya valamilyen értékkel
+	struct kartya k;
+	k.szin = 3; // pikk
+	k.szam = 12; // dáma
+	
+	// szín kiírása
+	switch(k.szin){
+	    case 0:
+    	    printf("treff ");
+    	    break;
+	    case 1:
+    	    printf("karo ");
+    	    break;
+	    case 2:
+    	    printf("kor ");
+    	    break;
+	    case 3:
+    	    printf("pikk ");
+    	    break;
+	}
+	
+	// szám kiírása
+	switch(k.szam){
+	    // speciális esetben
+	    case 11:
+    	    printf("J\n");
+    	    break;
+	    case 12:
+    	    printf("Q\n");
+    	    break;
+	    case 13:
+    	    printf("K\n");
+    	    break;
+	    case 14:
+    	    printf("A\n");
+    	    break;
+    	// alapeset: sima szám
+    	default:
+    	    printf("%d\n", k.szam);
+	}
+	
+	_getch();
+	return 0;
+}
+```
+</details>
+
 ### 3D pontok távolsága
 
 A program kérjen be a felhasználótól 3D-s pontok koordinátáit, ezután írja ki a legközelebbi két pont koordinátáit. A pontokat struktúrával kell reprezentálni.
@@ -1384,6 +1453,262 @@ while(index1<meret1 || index2<meret2){
         osszefuzott[index1+index2] = tomb2[index2];
         index2++;
     }
+}
+```
+</details>
+
+## 4. hét
+
+### Tetszőleges kitevőjű gyökvonás
+
+A program kérjen be a felhasználótól egy alapot és egy gyökkitevőt, majd írja ki a gyök értékét.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// adatok bekérése
+double alap, kitevo;
+printf("alap: "); scanf("%lf", &alap);
+printf("gyokkitevo: "); scanf("%lf", &kitevo);
+
+// eredmény kiszámolása és kiírása
+printf("gyok: %g\n", pow(alap, 1/kitevo));
+```
+</details>
+
+### Tetszőleges alapú logaritmus
+
+A program kérjen be a felhasználótól egy alapot és egy számot, majd számítsa ki az ennek megfelelő logaritmust.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// adatok bekérése
+double alap, szam;
+printf("alap: "); scanf("%lf", &alap);
+printf("szam: "); scanf("%lf", &szam);
+
+// eredmény kiszámolása és kiírása
+printf("logaritmus: %g\n", log(szam)/log(alap));
+```
+</details>
+
+### Radiánból fok
+
+A program váltson át radiánt fokba.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// radián bekérése
+double rad;
+printf("rad: "); scanf("%lf", &rad);
+
+// pi kiszámítása
+double pi = acos(0)*2;
+
+// fok kiírása
+printf("deg: %g\n", rad*180/pi);
+```
+</details>
+
+### Fokból radián
+
+A program váltson át fokot radiánba.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// fok bekérése
+double deg;
+printf("deg: "); scanf("%lf", &deg);
+
+// pi kiszámítása
+double pi = acos(0)*2;
+
+// fok kiírása
+printf("rad: %g\n", deg*pi/180);
+```
+</details>
+
+### Polárból derékszögű
+
+A program kérje be egy pont polárkoordinátáit és  írja ki az annak megfelelő derékszögű koordinátákat.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// polárkordináták bekérése
+double r, fi;
+printf("r: "); scanf("%lf", &r);
+printf("fi: "); scanf("%lf", &fi);
+
+// atváltás
+double x=r*cos(fi);
+double y=r*sin(fi);
+
+// kiírás
+printf("(x,y) = (%g,%g)\n", x,y);
+```
+</details>
+
+### Derékszögűből polár
+
+A program kérje be egy pont derékszögű koordinátáit és  írja ki az annak megfelelő polárkoordinátákat.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// derékszögű kordináták bekérése
+double x, y;
+printf("x: "); scanf("%lf", &x);
+printf("y: "); scanf("%lf", &y);
+
+// atváltás
+double r=sqrt(x*x+y*y);
+double fi=atan2(y,x); // atan2!!!
+
+// kiírás
+printf("(r,fi) = (%g,%g)\n", r,fi);
+```
+</details>
+
+### Véletlen egész szám
+
+A program kérje be, hogy mettől meddig kell véletlenszámot generálni, majd eszerint írjon ki egy egész véletlenszámot. Az intervallum zárt legyen!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// randomgenerátor indítása
+srand(time(NULL));
+
+// intervallum bekérése
+int mettol, meddig;
+printf("mettol: "); scanf("%d", &mettol);
+printf("meddig: "); scanf("%d", &meddig);
+
+// véletlenszám-generálás
+int r = rand()%(meddig-mettol+1) + mettol;
+
+// kiírás
+printf("%d\n", r);
+```
+</details>
+
+### Véletlen valós szám
+
+A program kérje be, hogy mettől meddig kell véletlenszámot generálni, majd eszerint írjon ki egy valós véletlenszámot. (Az intervallum jellegére nem kell tekintettel lenni.)
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// randomgenerátor indítása
+srand(time(NULL));
+
+// intervallum bekérése
+double mettol, meddig;
+printf("mettol: "); scanf("%lf", &mettol);
+printf("meddig: "); scanf("%lf", &meddig);
+
+// véletlenszám-generálás
+double r = (double)rand()/RAND_MAX*(meddig-mettol)+mettol;
+
+// kiírás
+printf("%g\n", r);
+```
+</details>
+
+### Dupla dobás összeg
+
+Bizonyos játékokban két dobókockával dobnak, majd a dobás eredményét összeadják, így 2-től 12-ig jönnek ki értékek. Szimuláljunk 1000 ilyen dobást, és vizsgáljuk meg, hogy 2-től 12-ig a különböző kimeneteleknek mekkora a százalékos előfordulása.
+<details>
+<summary>működési példa:</summary>
+```
+dobas   gyakorisag
+    2        2.10%
+    3        6.20%
+    4        8.30%
+    5       11.30%
+    6       14.20%
+    7       16.90%
+    8       15.20%
+    9       10.10%
+   10        8.80%
+   11        4.20%
+   12        2.70%
+```
+</details>
+
+
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// randomgenerátor indítása
+srand(time(NULL));
+
+// gyakorisági táblázat, hányszor fordult elő az adott esemény (1..12)
+int gyakorisag[11];
+for(int i=0; i<11; i++)
+    gyakorisag[i] = 0;
+
+// 1000 dobás szimulálása
+int hanyszor=1000;
+for(int i=0; i<hanyszor; i++){
+    // dobás
+    int dobas = rand()%6+1 + rand()%6+1; // két dobás összege
+    
+    // dobás beírása a gyakorisag táblázatba
+    gyakorisag[dobas-2]++;
+}
+
+// százalékok kiírása
+printf("dobas   gyakorisag\n");
+for(int i=0; i<11; i++){
+    printf("%5d    %8.2f%%\n", i+2, (double)gyakorisag[i]/hanyszor*100);
+}
+```
+</details>
+
+### Lottószámok
+
+A program generáljon lottószámokat (5 darab egész 1-től 90-ig ismétlődés nélkül)!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// randomgenerátor indítása
+srand(time(NULL));
+
+// eddig kihúzott számok
+int szamok[5];
+int eddig_kihuzott = 0;
+
+// húzás egyesével
+while(eddig_kihuzott<5){
+    // random generálás
+    int r = rand()%90+1; // 1..90
+    
+    // kihúztuk már?
+    int szerepelt = 0;
+    for(int i=0; i<eddig_kihuzott; i++){
+        if(szamok[i] == r){
+            szerepelt=1;
+            break;
+        }
+    }
+    
+    // ha nem húztuk még ki, akkor tároljuk
+    if(!szerepelt){
+        szamok[eddig_kihuzott] = r;
+        eddig_kihuzott++;
+    }
+}
+
+// kiírás
+for(int i=0; i<5; i++){
+    printf("%d\n", szamok[i]);
 }
 ```
 </details>
