@@ -1624,6 +1624,7 @@ printf("%g\n", r);
 Bizonyos játékokban két dobókockával dobnak, majd a dobás eredményét összeadják, így 2-től 12-ig jönnek ki értékek. Szimuláljunk 1000 ilyen dobást, és vizsgáljuk meg, hogy 2-től 12-ig a különböző kimeneteleknek mekkora a százalékos előfordulása.
 <details>
 <summary>működési példa:</summary>
+
 ```
 dobas   gyakorisag
     2        2.10%
