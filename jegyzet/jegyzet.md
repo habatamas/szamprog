@@ -288,12 +288,6 @@ int a,b,c, t[10], d, q[5]; // tömbök együtt deklarálhatók sima változókka
 float tomb[4] = {3.14, 1.4142136, 6e23, -4.5678};
 int primszamok[] = {2, 3, 5, 7, 11}; // nem kell a méret, mivel az elemek felsorolásából egyértelmű
 int tomb2[10] = {1, 2, 3}; // ilyenkor a tömb 10 elemű lesz, és az első három eleme lesz beállítva
-
-// a tömb méretét változóban is megadhatjuk, de ekkor a deklaráláskor megadott méretű marad végig
-int meret;
-printf("mekkora legyen a tomb? "); scanf("%d", &mere); // felhasználó futáskor akármennyit írhat be
-double szamok[meret]; // amennyit beírt, annyi elemű lesz a dömb
-meret++; // ekkor a tömb mérete változatlan marad, mert futás közben nem méretezhető újra
 ```
 
 ### Tömb elemeinek elérése
