@@ -152,17 +152,6 @@ scanf("%lf", &c);
 | ```/``` | osztás |
 | ```%``` | osztási maradék |
 
-### Bináris műveletek
-
-| Operátor | Jelentés |
-| --- | --- |
-| ```~``` | bitenkénti negálás |
-| ```&``` | bitenkénti és |
-| ```\|``` | bitenkénti vagy |
-| ```^``` | bitenkénti kizáró vagy |
-| ```>>``` | jobbraléptetés |
-| ```<<``` | balraléptetés |
-
 ### Összehasonlító operátorok
 
 Feltételekben és ciklusokban kellenek.
@@ -438,4 +427,100 @@ int main(){
 	_getch();
 	return 0;
 }
+```
+
+## Makró-konstansok
+
+A makró-konstansok lényegében helyettesítési szabályok. A C program fordításának legelső lépésében ezek a behelyettesítések mennek végbe. A makró-konstansok segítségével a kódot sokkal érthetőbbé lehet tenni (ld. alábbi példa).
+
+#### Példa
+
+```C
+// nincs igaz-hamis típus, de csinálhatunk igaz-hamis konstansokat
+#define IGAZ 1
+#define HAMIS 0
+
+// matematikai konstansokat is definiálhatunk
+#define PI 3.14159265359
+
+// vagy egy jelzőlámpa színeit
+#define PIROS 0
+#define SARGA 1
+#define ZOLD 2
+``` 
+
+## Bitműveletek
+
+### Számábrázolás kettes számrendszerben
+
+A számítógép az adatokat binárisan, azaz kettes számrendszerben tárolja (mellesleg ez az egyik Neumann elv). Ilyen formában csak két számjegy létezik, az 1 és a 0. Ezeket biteknek nevezzük.
+
+```C
+int szam = 0b1000110; // a forráskódban is adhatunk értéket binárisan
+printf("%d\n", szam);
+```
+
+### Bitenkénti műveletek
+
+A formális logikából jól ismert műveleteket (negálás, és, vagy, kizáróvagy) el lehet végezni bitről bitre az alábbi operátorok segítségével:
+
+| Operátor | Jelentés |
+| --- | --- |
+| ```~``` | bitenkénti negálás |
+| ```&``` | bitenkénti és |
+| ```\|``` | bitenkénti vagy |
+| ```^``` | bitenkénti kizáró vagy |
+| ```>>``` | jobbraléptetés |
+| ```<<``` | balraléptetés |
+
+#### Példa
+
+```C
+// az unsigned char pont 8 bites, ezekkel fogunk dolgozni
+unsigned char a=0b00100011;
+unsigned char b=0b11000101;
+unsigned char c;
+
+
+/* bitenkénti negálás: nullák és egyesek felcserélése
+   a:  0b00100011
+   ~a: 0b11011100 */
+c = ~a; // nem keverendő a ! operátorral!
+
+
+/* bitenkénti vagy: az eredmény csak akkor 1, ha bármelyik bit 1
+   a:   0b00100011
+   b:   0b11000101
+   a|b: 0b11100111 */
+c = a|b; // nem keverendő az || operátorral!
+
+
+/* bitenkénti és: az eredmény csak akkor 1, ha mindkét bit 1
+   a:   0b00100011
+   b:   0b11000101
+   a&b: 0b00000001 */
+c = a&b; // nem keverendő az && operátorral!
+
+
+/* bitenkénti kizáró vagy: az eredmény csak akkor 1, ha csak az egyik bit 1
+   a:   0b00100011
+   b:   0b11000101
+   a^b: 0b11100110 */
+c = a^b;
+
+/* jobbraléptetés: bitek elcsúsztatása adott számú lépéssel jobbra,
+   a kicsúszott bitek elvesznek, a becsúszottak mindig nullák
+   
+   pl: két lépés jobbra
+   a:    0b00100011
+   a>>2: 0b00001000 */
+c = a>>2;
+
+/* balraléptetés: bitek elcsúsztatása adott számú lépéssel balra,
+   a kicsúszott bitek elvesznek, a becsúszottak mindig nullák
+   
+   pl: két lépés balra
+   a:    0b00100011
+   c<<2: 0b10001100 */
+c = a<<2;
 ```
