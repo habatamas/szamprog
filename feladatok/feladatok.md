@@ -1941,3 +1941,136 @@ int main(){
 }
 ```
 </details>
+
+### Bináris összeadó állapotgép
+
+Készítsünk állapotgépet, ami összead két bináris számot!
+
+Az állapotgép felváltva kapja a számjegyeket az egyik és a másik számból és egyesével adja ki az összeg számjegyeit.
+
+Célszerű a működési példa és az állapotábra alapján dolgozni.
+
+<details>
+<summary>összeadás példa:</summary>
+```
+Az összeadás a következő:
+ 010011
++100111
+ ______
+ 111010
+ 
+ A rendszer bemenete ekkor:
+ 111101001001
+ 
+ A rendszer kimenete:
+ 010111
+```
+</details>
+
+
+<details>
+<summary>működési példa:</summary>
+```
+bemenet: 1
+bemenet: 1
+ki: 0
+bemenet: 1
+bemenet: 1
+ki: 1
+bemenet: 0
+bemenet: 1
+ki: 0
+bemenet: 0
+bemenet: 0
+ki: 1
+bemenet: 1
+bemenet: 0
+ki: 1
+bemenet: 0
+bemenet: 1
+ki: 1
+```
+</details>
+
+<details>
+<summary>állapotábra:</summary>
+![állapotábra](osszeado_allapotgep.svg)
+</details>
+
+<details>
+
+ <summary>megoldás:</summary>
+ 
+```C
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// az állapotterünk elnevezése
+#define ELSO_SZAM_NINCS_ATVITEL 0
+#define ELSO_SZAM_VAN_ATVITEL 1
+#define MASODIK_SZAM_NINCS_ATVITEL 2
+#define MASODIK_SZAM_1_ATVITEL 3
+#define MASODIK_SZAM_2_ATVITEL 4
+
+int main(){
+    // kiindulási állapot: első szám beolvasása, nincs átvitel
+    int allapot = ELSO_SZAM_NINCS_ATVITEL;
+    
+    while(1){
+        // bemenet beolvasása
+        int bit;
+        printf("bemenet: ");
+        scanf("%d", &bit);
+        
+        // aktuális állapot szerinti viselkedés
+        switch (allapot){
+            case ELSO_SZAM_NINCS_ATVITEL:
+                if(bit==1)
+                    allapot=MASODIK_SZAM_1_ATVITEL;
+                else
+                    allapot=MASODIK_SZAM_NINCS_ATVITEL;
+                break;
+                
+            case ELSO_SZAM_VAN_ATVITEL:
+                if(bit==1)
+                    allapot=MASODIK_SZAM_2_ATVITEL;
+                else
+                    allapot=MASODIK_SZAM_1_ATVITEL;
+                break;
+                
+            case MASODIK_SZAM_NINCS_ATVITEL:
+                if(bit==1){
+                    printf("ki: 1\n");
+                    allapot = ELSO_SZAM_NINCS_ATVITEL;
+                } else {
+                    printf("ki: 0\n");
+                    allapot = ELSO_SZAM_NINCS_ATVITEL;
+                }
+                break;
+                
+            case MASODIK_SZAM_1_ATVITEL:
+                if(bit==1){
+                    printf("ki: 0\n");
+                    allapot = ELSO_SZAM_VAN_ATVITEL;
+                } else {
+                    printf("ki: 1\n");
+                    allapot = ELSO_SZAM_NINCS_ATVITEL;
+                }
+                break;
+                
+            case MASODIK_SZAM_2_ATVITEL:
+                if(bit==1){
+                    printf("ki: 1\n");
+                    allapot = ELSO_SZAM_VAN_ATVITEL;
+                } else {
+                    printf("ki: 0\n");
+                    allapot = ELSO_SZAM_VAN_ATVITEL;
+                }
+                break;
+        }
+    }
+    
+    return 0;
+}
+```
+</details>
