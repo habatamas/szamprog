@@ -1952,6 +1952,7 @@ Célszerű a működési példa és az állapotábra alapján dolgozni.
 
 <details>
 <summary>összeadás példa:</summary>
+	
 ```
 Az összeadás a következő:
  010011
@@ -1970,6 +1971,7 @@ Az összeadás a következő:
 
 <details>
 <summary>működési példa:</summary>
+	
 ```
 bemenet: 1
 bemenet: 1
