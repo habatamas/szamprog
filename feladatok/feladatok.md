@@ -1996,9 +1996,9 @@ ki: 1
 
 <details>
 <summary>állapotábra:</summary>
-![állapotábra](osszeado_allapotgep.svg)
 </details>
 
+![állapotábra](osszeado_allapotgep.svg)
 <details>
 
  <summary>megoldás:</summary>
