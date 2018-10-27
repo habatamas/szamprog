@@ -775,3 +775,76 @@ egyik++; // szamok[1]-re mutat
 
 int i = masik-egyik; // értéke: 3
 ```
+
+## Fájlkezelés
+
+Fájlkezeleés során minden esetben az alábbi sémát kell követni: 
+
+- fájl megnyitása (fopen)
+- munkavégzés a fájlon (fprintf, fscanf, feof)
+- fájl bezárása (fclose)
+
+### Fájl megnyitása és bezárása
+
+A fájl megnyitása az fopen függvénnyel történik. Első paramétere a fájlnév (vagy a teljes elérési útvonal), a második a megnyitás módja.
+
+Fájl megnyitási módjai:
+
+- "r" (olvasás): Csak létező fájlt lehet így megnyitni, amiből ezután ki lehet olvasni a tartalmát.
+- "w" (írás): Ha a fájl nem létezik, létrehozza. Ha létezik, akkor tartalma törlődik. Ebben a módban írni lehet a fájlba.
+- "a" (hozzáfűzés):  Ugyanaz, mint az előző, de a fájl korábbi tartalma megmarad, az újonnan beírt adatok folytatólagosan kerülnek a fájlba.
+
+Az fopen egy FILE* típusú pointerrel tér vissza. Ezt a pointert kell megadni minden további fájlkezelő függvénynek, hogy tudják, melyik fájlon kell dolgozni.
+
+Fájl bezárása az fclose függvénnyel történik. Sosem szabad elfelejteni!
+
+```C
+// megnyitás
+FILE *fp = fopen("szoveg.txt", "r");
+
+// munkavégzés a fájlon
+// ...
+
+// lezárás
+fclose(fp);
+```
+
+### Adatok kiírása fájlba
+
+Amikor "w" vagy "a" módban lett megnyitva egy fájl, az fprintf segítségével lehet bele adatokat kiírni pont úgy, ahogy azt a printf-nél megszokhattuk. Az egyetlen különbség az, hogy első argumentumként a megfelelő fájl pointert kell átadni.
+
+```C
+fprintf(fp, "Hello! %d\n", 12);
+```
+
+### Adatok beolvasása fájlból
+
+Amikor "r" módban lett megnyitva egy fájl, az fscanf függvénnyel olvasható be belőle adat. Ennek működése megegyezik a sima scanf működésével, csak első argumentumként itt is át kell adni a fájl pointert.
+
+```
+int szam;
+fscanf(fp, "%d", &szam);
+```
+
+### Fájl végének meghatározása
+
+Az feof függvény segítségével lehet eldönteni, hogy a fájl végére értünk-e. Viszont ez a függvény csak utolag tudja eldönteni, hogy vége van-e a fájlnak.
+
+Az feof arra ad választ, hogy ha az előző beolvasás nem sikerült, akkor az a fájl vége miatt történt-e. Éppen ezért beolvasás után ellenőrizzük a fájl végét!
+
+```C
+// minden sorban van egy szám, amit beolvasunk
+while(1){
+	// megpróbáljuk beolvasni (lehet, hogy nem sikerül)
+	double szam;
+	fscanf(fp, "%lf", &szam);
+	
+	// vége van a fájlnak? (az előző beolvasás nem sikerült)
+	if(feof(fp)
+		break;
+	
+	// adatfeldolgozás
+	// ...
+}
+
+```
