@@ -821,7 +821,7 @@ fprintf(fp, "Hello! %d\n", 12);
 
 Amikor "r" módban lett megnyitva egy fájl, az fscanf függvénnyel olvasható be belőle adat. Ennek működése megegyezik a sima scanf működésével, csak első argumentumként itt is át kell adni a fájl pointert.
 
-```
+```C
 int szam;
 fscanf(fp, "%d", &szam);
 ```
