@@ -781,7 +781,7 @@ int i = masik-egyik; // értéke: 3
 Fájlkezeleés során minden esetben az alábbi sémát kell követni: 
 
 - fájl megnyitása (fopen)
-- munkavégzés a fájlon (fprintf, fscanf, feof)
+- munkavégzés a fájlon (fprintf, fscanf)
 - fájl bezárása (fclose)
 
 ### Fájl megnyitása és bezárása
@@ -828,23 +828,20 @@ fscanf(fp, "%d", &szam);
 
 ### Fájl végének meghatározása
 
-Az feof függvény segítségével lehet eldönteni, hogy a fájl végére értünk-e. Viszont ez a függvény csak utolag tudja eldönteni, hogy vége van-e a fájlnak.
-
-Az feof arra ad választ, hogy ha az előző beolvasás nem sikerült, akkor az a fájl vége miatt történt-e. Éppen ezért beolvasás után ellenőrizzük a fájl végét!
+Gyakran ismeretlen számú adat van az olvasott fájlban, ezért tudnunk kell, ha elértük a fájl végét. Érdemes erre az fscanf visszatérési értékét használni: ha sikeres volt a beolvasás, akkor a visszatérési érték a beolvasott paraméterek számával egyezik meg.
 
 ```C
 // minden sorban van egy szám, amit beolvasunk
 while(1){
 	// megpróbáljuk beolvasni (lehet, hogy nem sikerül)
 	double szam;
-	fscanf(fp, "%lf", &szam);
+	int beolvasva = fscanf(fp, "%lf", &szam);
 	
-	// vége van a fájlnak? (az előző beolvasás nem sikerült)
-	if(feof(fp)
+	// ha nem sikerült a beolvasás, kilépünk
+	if(beolvasva!=1)
 		break;
 	
 	// adatfeldolgozás
 	// ...
 }
-
 ```

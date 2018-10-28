@@ -2297,3 +2297,328 @@ akkor kicímzünk a tömbből. A példa lényege a pointeraritmetika szemléltet
 */
 ```
 </details>
+
+## 9. hét
+
+### Fájl feltöltése véletlenszámokkal
+
+Töltsünk fel a szamok.txt-t 100 darab véletlenszámmal 1 és 10 között!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+FILE *f = fopen("szamok.txt", "w");
+for(int i=0; i<100; i++){
+    fprintf(f, "%d\n", rand()%10+1);
+}
+fclose(f);
+```
+</details>
+
+### Számok számlálása fájlban
+
+Írjuk ki, hogy hány szám van a szamok.txt-ben!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// fájl megnyitása
+FILE *f = fopen("szamok.txt", "r");
+    
+// számláló
+int n=0;
+
+while(1){
+    // egy számot megpróbálunk beolvasni
+    double x;
+    int beolvasva = fscanf(f, "%lf", &x);
+    
+    // ha nem sikerült, kilépünk
+    if(beolvasva!=1)
+        break;
+    
+    // ha sikerült, akkor növeljük a számlálót
+    n++;
+}
+
+// eredmény kiírása
+printf("%d\n", n);
+
+// fájl bezárása
+fclose(f);
+```
+</details>
+
+### Fájl feltöltése anyagi pontokkal
+
+A "pontok.txt" soronként egy-egy anyagi pont x,y,z koordinátáját és tömegét tartalmazza. Írjunk programot, ami még 10 véletlenszerű pontot ad hozzá a fájlhoz! A koordináták -100 és 100 között legyenek, a tömeg 0 és 10 között.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// randomgenerátor indítása
+srand(time(NULL));
+
+// fájlmegnyitás
+FILE *f = fopen("pontok.txt", "a");
+
+// pontok generálása
+for(int i=0; i<10; i++){
+    double x,y,z,m;
+    x=(double)rand()/RAND_MAX*200-100;
+    y=(double)rand()/RAND_MAX*200-100;
+    z=(double)rand()/RAND_MAX*200-100;
+    m=(double)rand()/RAND_MAX*10;
+    fprintf(f, "%10f %10f %10f %10f\n", x,y,z,m);
+}
+
+// fájlbezárás
+fclose(f);
+```
+</details>
+
+### Tömegközéppont
+
+A program most számítsa ki az előző feladatban generált pontok tömegközéppontját!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// fájlmegnyitás
+FILE *f = fopen("pontok.txt", "r");
+
+// átlagszámításhoz adatok
+double sum_x=0, sum_y=0, sum_z=0; // koordináták súlyozott összege
+double sum_m=0; // súlyok összege
+
+// soronkénti beolvasás
+while(1){
+    // egy pont beolvasása
+    double x,y,z,m;
+    if(fscanf(f, "%lf %lf %lf %lf", &x,&y,&z,&m) != 4)
+        break;
+    
+    // hozzáadás összegekhez
+    sum_x += x*m;
+    sum_y += y*m;
+    sum_z += z*m;
+    sum_m += m;
+}
+
+// fájlbezárás
+fclose(f);
+
+// tömegközéppont kiszámítása és kiírása
+double x=sum_x/sum_m;
+double y=sum_y/sum_m;
+double z=sum_z/sum_m;
+printf("%10f %10f %10f\n", x,y,z);
+```
+</details>
+
+### Függvénytáblázat generálása
+
+A program készítsen függvénytáblázatot a következőképpen: minden sorban legyen tabulátorokkal elválasztva egy x, sin(x), cos(x) és tg(x) érték. Az x érték legyen 0°-tól 360°-ig fokonként.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// fájlmegnyitás
+FILE *f = fopen("fuggvenytabla.txt", "w");
+
+// PI értéke
+double pi = acos(-1);
+
+// függvénytábla kitöltése soronként
+for(double fok=0; fok<=360; fok++){
+    // átváltás radiánba
+    double rad = fok*pi/180;
+    
+    // sor kiírása
+    fprintf(f, "%g\t%g\t%g\t%g\n", fok, sin(rad), cos(rad), sin(rad)/cos(rad));
+}
+
+// fájl bezárása
+fclose(f);
+```
+</details>
+
+### Függvénytáblázat használata
+
+A program kérjen be egy forgásszöget fokokban (lehet negatív vagy 360 fok fölöt is), és írja ki az előző feladatban generált függvénytábla alapján a szinuszát, koszinuszát, tangensét! 
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szög beolvasása
+double szog;
+printf("szog fokokban: "); scanf("%lf", &szog);
+
+// szög normalizálása (essen 0 és 360 fok közé)
+while(szog<0) szog+=360;
+while(szog>=360) szog-=360;
+
+// fájlmegnyitás
+FILE *f = fopen("fuggvenytabla.txt", "r");
+
+// közelítő érték keresése
+double x, sinx, cosx, tgx;
+do{
+    fscanf(f, "%lf %lf %lf %lf", &x, &sinx, &cosx, &tgx);
+} while(x<szog);
+
+// eredmény kiírása
+printf("szinusz: %g\n", sinx);
+printf("koszinusz: %g\n", cosx);
+printf("tangens: %g\n", tgx);
+
+// fájl bezárása
+fclose(f);
+```
+</details>
+
+### Szám beszúrása fájlba
+
+A rendezett.txt fájl minden sorában egy-egy szám található növekvő sorrendben. A program kérjen be egy számot, szúrja be a megfelelő helyre és írja ki a számokat az uj_rendezett.txt-be!    
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// szám beolvasása
+double szam;
+printf("irj be egy szamot: "); scanf("%lf", &szam);
+
+// fájlok megnyitása
+FILE *file_be = fopen("rendezett.txt", "r");
+FILE *file_ki = fopen("uj_rendezett.txt", "w");
+
+int kiirva=0;
+
+// soronkénti beolvasás
+while(1){
+    // soronkövetkező szám beolvasása a fájlból
+    double x;
+    if(fscanf(file_be, "%lf", &x) != 1)
+        break;
+    
+    // ha meghaladta a fájlból beolvasott szám a felhasználóét,
+    // akkor gyorsan még kiírjuk előbb (ha eddig nem tettük volna)
+    if(x>szam && !kiirva){
+        fprintf(file_ki, "%g\n", szam);
+        kiirva=1; // jelezzük, hogy többet már nem kell fájlba írni ezt a számot
+    }
+    
+    // fájlból beolvasott szám kiírása
+    fprintf(file_ki, "%g\n", x);
+}
+
+// ha a számunk nagyon nagy volt, akkor a fájl legvégére kell kiírni
+if(!kiirva)
+    fprintf(file_ki, "%g\n", szam);
+
+// fájlok bezárása
+fclose(file_be);
+fclose(file_ki);
+```
+</details>
+
+### Minimumkeresés fájlban
+
+A szamok.txt soronként egy-egy számot tartalmaz (de legalább egyet). Keressük meg a minimumot!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// fájl megnyitása
+FILE *f = fopen("szamok.txt", "r");
+
+// a legelső minimum-jelölt a legelső szám lesz
+double minimum;
+fscanf(f, "%lf", &minimum);
+
+// többi szám beolvasása
+while(1){
+    // következő szám beolvasása
+    double x;
+    if(fscanf(f, "%lf", &x)!=1)
+        break;
+    
+    // ha a beolvasott kisebb a minimum-jelöltnél, akkor ő lesz az új minimum
+    if(x<minimum)
+        minimum=x;
+}
+
+// minimum kiírása
+printf("minimum: %g\n", minimum);
+
+// fájl bezárása
+fclose(f);
+```
+</details>
+
+### Egyedi számok a fájlban
+
+A szamok.txt minden sora egy-egy számot tartalmaz, úgy, hogy egy szám többször előfordulhat. Készítsük el az egyedi.txt-t, amiben minden szám csak egyszer fordul elő!
+
+Algoritmus:
+
+1. keressük meg a legkisebb számot a bemeneti fájlban, és írjuk ki a kimeneti fájlba
+2. keressük meg a legutóbb kiírt számnál még éppen nagyobb számot a bemeneti fájlban
+3. ha nincs találat, készen vagyunk
+4. ha van találat, akkor azt írjuk ki a kimeneti fájlba és folytassuk a 2. lépéstől
+
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+// kimeneti fájl megnyitása
+FILE *file_ki = fopen("egyedi.txt", "w");    
+    
+// 1.: legkisebb szám megkeresése a bemeneti fájlban
+FILE *file_be = fopen("szamok.txt", "r");
+double minimum;
+fscanf(file_be, "%lf", &minimum);
+while(1){
+    double x;
+    if(fscanf(file_be, "%lf", &x) != 1)
+        break;
+    
+    if(x<minimum)
+        minimum = x;
+}
+fclose(file_be);
+
+// legkisebb szám kiírása a kimeneti fájlba
+fprintf(file_ki, "%g\n", minimum);
+double legutobbi = minimum; // megjegyezzük mindig a legutoljára kiírt számot
+
+// többi szám kiírása
+while(1){
+    // 2: következő minimum megkeresése, ami nagyobb, mint a legutóbbi kiírt
+    int van_talalat = 0;
+    file_be = fopen("szamok.txt", "r");
+    while(1){
+        double x;
+        if(fscanf(file_be, "%lf", &x) != 1)
+            break;
+
+        if(legutobbi<x && (van_talalat==0 || x<minimum) ){
+            minimum = x;
+            van_talalat = 1;
+        }
+    }
+    fclose(file_be);
+    
+    // 3. ha nincs találat, készen vagyunk
+    if(!van_talalat)
+        break;
+    
+    // 4. ha van találat, akkor kiírjuk a kimeneti fájlba
+    fprintf(file_ki, "%g\n", minimum);
+    legutobbi=minimum;
+}
+
+// kimeneti fájl bezárása
+fclose(file_ki);
+```
+</details>
