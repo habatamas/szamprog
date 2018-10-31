@@ -2445,7 +2445,7 @@ fclose(f);
 
 ### Függvénytáblázat használata
 
-A program kérjen be egy forgásszöget fokokban (lehet negatív vagy 360 fok fölöt is), és írja ki az előző feladatban generált függvénytábla alapján a szinuszát, koszinuszát, tangensét! 
+A program kérjen be egy forgásszöget fokokban (lehet negatív vagy 360 fok fölött is), és írja ki az előző feladatban generált függvénytábla alapján a szinuszát, koszinuszát, tangensét! 
 <details>
  <summary>megoldás:</summary>
  
