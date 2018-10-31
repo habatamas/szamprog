@@ -527,7 +527,7 @@ c = a<<2;
 
 ## Függvények
 
-Egy összetett problémát célszerű részfeladatokra bontással megoldani. Egy részfeladat megoldását pedig érdemes függvénnyel megvalósítani. A függvény kaphat paramétereket (argumentumokat) és visszatérhet egy értékkel (visszatérési érték.
+Egy összetett problémát célszerű részfeladatokra bontással megoldani. Egy részfeladat megoldását pedig érdemes függvénnyel megvalósítani. A függvény kaphat paramétereket (argumentumokat) és visszatérhet egy értékkel (visszatérési érték).
 
 ### Függvény definiálása
 
@@ -568,7 +568,7 @@ int main(){
 
 Egy függvény hívásakor a paraméterek értékei lemásolódnak, így nem tud a hívó változóihoz hozzáférni.
 
-```
+```C
 void fuggveny(int argumentum){
     argumentum++; // csak a saját másolatát változtatja meg
 }
