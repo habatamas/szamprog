@@ -2622,3 +2622,394 @@ while(1){
 fclose(file_ki);
 ```
 </details>
+
+## 11. hét
+
+### Saját sztringkezelő függvények
+
+A sztringkezelés és pointer-aritmetika gyakorlása végett készítsd el az alábbi sztringkezelő függvényeket, amelyek a beépítettekhez hasonlóan működnek:
+sajat_strlen
+sajat_strcpy
+sajat_strcat
+sajat_strchr
+<details>
+ <summary>megoldás:</summary>
+
+```C
+int sajat_strlen(char *s){
+    int len = 0;
+    while(*s != '\0'){
+        s++;
+        len++;
+    }
+    return len;
+}
+
+void sajat_strcpy(char *cel, char *forras){
+    while(*forras != '\0'){
+        *cel = *forras;
+        cel++;
+        forras++;
+    }
+    *cel = '\0'; // lezáró nulla!
+}
+
+void sajat_strcat(char *cel, char *forras){
+    while(*cel != '\0')
+        cel++;
+    while(*forras != '\0'){
+        *cel = *forras;
+        cel++;
+        forras++;
+    }
+    *cel = '\0'; // lezáró nulla!
+}
+
+char *sajat_strchr(char *str, char ch){
+    while(*str != '\0'){
+        if(*str == ch)
+            return str;
+    }
+    return NULL;
+}
+```
+</details>
+
+### Adott kezdetű sztring
+
+Írj függvényt, ami megmondja, hogy egy sztring adott sztringgel kezdődik-e.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int kezdodik(char *sztring, char *kezdet){
+    return strncmp(sztring, kezdet, strlen(kezdet))==0;
+}
+```
+</details>
+
+### Részsztring
+
+Írj függvényt, ami egy sztringből csak egy réssztringet másol át. A réssztring kezdeti indexe és hossza legyen argumentumként megadva!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+void reszsztring(char *cel, char *forras, int kezdet, int hossz){
+    strncpy(cel, forras+kezdet, hossz);
+}
+```
+</details>
+
+### Keresés
+
+Írj függvényt, ami megkeres egy sztringben egy másikat, és visszaadja, hogy hanyadik karaktertől van a találat. Ha nincs találat, -1-gyel térjen vissza.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int keres(char *miben, char *mit){
+    char *talalat = strstr(miben, mit);
+    if(talalat==NULL)
+        return -1;
+    return talalat-miben;
+}
+```
+</details>
+
+### Előfordulások száma
+
+Írj függvényt, ami megszámolja, hogy egy sztringben hányszor szerepel egy másik sztring.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int talalatok_szama(char *miben, char *mit){
+    int szamlalo = 0;
+    while(strstr(miben, mit) != NULL){
+        szamlalo++;
+        miben = strstr(miben, mit) + strlen(mit); // a találat utántól folytassuk a keresést
+    }
+    return szamlalo;
+}
+```
+</details>
+
+### Keresés és csere
+
+Írj függvényt, ami egy sztringben keresést és cserét végez.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+void csere(char *cel, char *forras, char *mit, char *mire){
+    *cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
+    char *talalat = strstr(forras, mit);
+    while(talalat != NULL){
+        strncat(cel, forras, talalat-forras); // a találatig átmásolunk mindent
+        strcat(cel, mire); // a találat helyett a cseresztringet írjuk
+        forras = talalat + strlen(mit); // a találat utánra lépünk
+    }
+    strcat(cel, forras); // maradék átmásolása
+}
+```
+</details>
+
+### Kettévágó
+
+Írj függvényt, ami kettévág egy sztringet egy keresési sztring mentén (az első előfordulásnál). A visszatérési érték a maradék sztring legyen (az előfordulás utánról).
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+char *kettevag(char *mit, char *elvalaszto){
+    char *talalat = strstr(mit, elvalaszto);
+    if(talalat == NULL)
+        return NULL;
+    *talalat = '\0';
+    return talalat+strlen(elvalaszto);
+}
+```
+</details>
+
+### Pontosvesszővel elválasztva
+
+Adott egy sztring, amelyben pontosvesszők vannak. Daraboljuk fel a pontosvesszők mentén, és külön-külön sorban írjuk ki a tagokat!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+char str[]="elso;masodik;3;;7123;valami";
+char *maradek=str;
+do {
+    char *fej = maradek;
+    maradek = kettevag(maradek, ";");
+    printf("darab: %s\n", fej);
+} while(maradek != NULL);
+```
+</details>
+
+### Idő beolvasása sztringből
+
+Írj függvényt, ami megkap sztringként egy időt (pl: "6:17:08") és visszatér az éjfél óta eltelt másodpercek számával.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int ido(char *ido_sztring){
+    int ora, perc, masodperc;
+    sscanf(ido_sztring, "%d:%d:%d", &ora, &perc, &masodperc);
+    return ora*3600+perc*60+masodperc;
+}
+```
+</details>
+
+### Caesar-kód
+
+Írj egy függvényt, ami egy sztringet caesar-kódol. A függvény argumentumban kapja meg, hogy hány betűvel kell elforgatni az ábécét. A függvény csak a kis- és nagybetűket kódolja, a többi karakter maradjon változatlan! A függvény az eredeti sztringet módosítsa, nem kell külön célsztringbe másolni!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+void caesar(char *str, int n){
+    // a forgatást normalizáljuk, hogy -25...+25 tartományban legyen
+    n = n%('z'-'a'+1);
+    
+    // a negatív forgatást pozitívval helyettesítjük, pl -1 -> +25
+    if(n<0)
+        n += 'z'-'a'+1;
+    
+    // karakterenként kódolunk
+    while(*str != '\0'){
+        
+        // itt tároljuk a kódolt karaktert
+        int ch = *str+n; // azért int, mert a char túl szűk ért. tart.
+        
+        // kisbetű kódolása
+        if('a' <= *str && *str <= 'z'){
+            if(ch > 'z')
+                ch -= 'z'-'a'+1;
+            *str=ch;
+        }
+        // nagybetű kódolása
+        if('A' <= *str && *str <= 'Z'){
+            if(ch > 'Z')
+                ch -= 'Z'-'A'+1;
+            *str=ch;
+        }
+        
+        str++;
+    }
+}
+```
+</details>
+
+### Visszafele
+
+Írj egy függvényt, ami egy sztringet megfordít (első karakter az utolsó helyre, stb.)!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+void megfordit(char *str){
+    int hossz = strlen(str);
+    for(int i=0; i<hossz/2; i++){
+        char tmp = str[i];
+        str[i] = str[hossz-i-1];
+        str[hossz-i-1] = tmp;
+    }
+}
+```
+</details>
+
+### Szavak száma
+
+Írj egy függvényt, ami megszámolja, hogy hány szó van egy sztringben! Szónak azok a karakterláncok számítanak, amik betűket, számokat, írásjeleket tartalmaznak. A szavak közt egy vagy több elválasztó karakter lehet (szóköz, tabulátor, sortörés).
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+#define BETUT_VAR 0
+#define SZOKOZT_VAR 1
+
+int szavak(char *str){
+    // állapotgépes megoldás
+    int szamlalo = 0;
+    int allapot = BETUT_VAR;
+    
+    while(*str != '\0') {
+        switch(allapot){
+            case BETUT_VAR:
+                if(*str != ' ' && *str != '\t' && *str != '\n'){
+                    allapot = SZOKOZT_VAR;
+                    szamlalo++;
+                }
+                break;
+                
+            case SZOKOZT_VAR:
+                if(*str == ' ' || *str == '\t' || *str == '\n'){
+                    allapot = BETUT_VAR;
+                }
+                break;
+        }
+        
+        str++;
+    }
+    
+    return szamlalo;
+}
+```
+</details>
+
+### Egész számok száma
+
+Írj egy függvényt, ami megszámolja, hogy hány egész szám van egy sztringben! A számok nem feltétlenül állnak külön szóban. Számnak azok az egybefüggő részsztringek, amelyek csak számjegyekből állnak.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+#define BETUT_VAR 0
+#define SZOKOZT_VAR 1
+
+int szavak(char *str){
+    // állapotgépes megoldás
+    int szamlalo = 0;
+    int allapot = BETUT_VAR;
+    
+    while(*str != '\0') {
+        switch(allapot){
+            case BETUT_VAR:
+                if(*str != ' ' && *str != '\t' && *str != '\n'){
+                    allapot = SZOKOZT_VAR;
+                    szamlalo++;
+                }
+                break;
+                
+            case SZOKOZT_VAR:
+                if(*str == ' ' || *str == '\t' || *str == '\n'){
+                    allapot = BETUT_VAR;
+                }
+                break;
+        }
+        
+        str++;
+    }
+    
+    return szamlalo;
+}
+```
+</details>
+
+### Hangrend
+
+Írj egy függvényt, ami egy sztring hangrendjét állapítja meg. A visszatérési érték 1 ha magas, 0 ha vegyes, -1 ha mély hangrendű a szó.
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int hangrend(char *str){
+    int van_magas=0; // szerepelt magas mgh
+    int van_mely=0; // szerepelt mély mgh
+    
+    while(*str != '\0') {
+        if(strchr("eiEI", *str) != NULL)
+            van_magas = 1;
+        if(strchr("auoAUO", *str) != NULL)
+            van_mely = 1;
+        
+        str++;
+    }
+    
+    if(van_magas && van_mely)
+        return 0; // vegyes
+    if(van_magas)
+        return 1; // magas
+    return -1; // mély
+}
+```
+</details>
+
+### Ábécérend
+
+Írj egy függvényt, ami egy sztringeket tartalmazó tömböt (char**) ábécérendbe szed!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int abcrend(char **szavak, int n){
+    for(int meddig=n-2; 0<meddig; meddig--){
+        for(int i=0; i<=meddig; i++){
+            if( strcmp(szavak[i], szavak[i+1]) > 0 ){
+                char *tmp = szavak[i];
+                szavak[i] = szavak[i+1];
+                szavak[i+1] = tmp;
+            }
+        }
+    }
+}
+```
+</details>
+
+### Szóköztelenítő
+
+Írj egy függvényt, ami egy sztringből kitörli a szóközöket!
+<details>
+ <summary>megoldás:</summary>
+ 
+```C
+int szokoztelenito(char *str){
+    char *olvas = str;
+    char *ir = str;
+    
+    while(*olvas!='\0'){
+        if(*olvas!=' '){
+            *ir = *olvas;
+            ir++;
+        }
+        olvas++;
+    }
+    
+    *ir = '\0'; // lezáró nulla!
+}
+```
+</details>

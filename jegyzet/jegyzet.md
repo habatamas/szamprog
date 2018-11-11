@@ -845,3 +845,92 @@ while(1){
 	// ...
 }
 ```
+
+## Sztringkezelés
+
+### Sztringek felépítése
+
+A C nyelvben a sztringek (szöveges adatok) olyan karaktertömbök, melyeket a nullás ascii-kódú karakter zár le.
+
+
+```C
+char string1[] = {'H','e','l','l','o','\0'}; // ez egy sztring
+char string2[] = "Hello"; // kényelmesebb megadási mód
+char *string3 = "Hello"; // így is lehet, de így nem tudjuk módosítani
+```
+
+### Sztringek kiírása és beolvasása
+
+
+```C
+// kellő nagy tömbök, amikbe beolvasunk
+char string1[50];
+char string2[50];
+
+// egy sor beolvasása
+gets(string1);
+
+// egy szó beolvasása
+fscanf("%s", string2);
+
+// kiírás egyszerűen printf-fel
+printf("%s\n", string1);
+printf("%s\n", string2);
+```
+
+### Sztringkezelő függvények
+
+A korábban már ismertetett tömbkezelés és pointer-aritmetika segítségével már a sztringkezelés önmagában megoldható lenne. Hogy könnyebb legyen boldogulni, a C nyelvben vannak beépített sztringkezelő függvények.
+
+Használathoz szükséges a program elején:
+
+```C
+#include <string.h>
+```
+
+A legfontosabb sztringkezelő függvények:
+
+```C
+/* visszatér s sztring hosszával
+ * (a lezáró nullkaraktert nem számítja bele)
+ */
+strlen(s);
+
+/* forras sztring tartalmát cel sztringbe másolja
+ */
+strcpy(cel, forras);
+strncpy(cel, forras, n); // csak az első n karaktert fűzi hozzá, lezáró nullával nem törődik!
+
+/* összehasonlítja s1 és s2 sztringet. visszatérési értéke:
+ * <0 ha s1 előbb van az ábécében,
+ *  0 ha s1 és s2 egyenlő,
+ * >0 ha s2 előbb van az ábécében,
+ */
+strcmp(s1, s2);
+strncmp(s1, s2, n); // csak az első n karaktert hasonlítja össze
+
+/* forras sztring tartalmát hozzáfűze cel sztringhez
+ */
+strcat(cel, forras);
+strncat(cel, forras, n); // csak az első n karaktert fűzi hozzá
+
+/* megkeresi ch karakter legelső előfordulását s sztringben.
+ * ha nincs találat, NULL pointert ad visssza,
+ * ha van találta, a talált karakterre mutató pointert adja vissza
+ */
+strchr(s, ch);
+
+/* megkeresi "mit" sztring legelső előfordulását "miben" sztringben.
+ * ha nincs találat, NULL pointert ad visssza,
+ * ha van találta, a találat első karakterére mutató pointert adja vissza
+ */
+strstr(miben, mit);
+```
+
+Gyakran egyszerű és kényelmes sztringekből az adatok kinyerése és adott formátumú sztring készítése az alábbi függvényekkel:
+
+```C
+// működés ugyanaz, mint az fprintf és társai, csak sztringeken dolgozik
+sscanf(str, formátum, ...);
+sprintf(str, formátum, ...);
+```
