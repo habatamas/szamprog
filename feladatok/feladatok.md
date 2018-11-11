@@ -2742,15 +2742,16 @@ int talalatok_szama(char *miben, char *mit){
  <summary>megoldás:</summary>
  
 ```C
-void csere(char *cel, char *forras, char *mit, char *mire){
-    *cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
-    char *talalat = strstr(forras, mit);
-    while(talalat != NULL){
-        strncat(cel, forras, talalat-forras); // a találatig átmásolunk mindent
-        strcat(cel, mire); // a találat helyett a cseresztringet írjuk
-        forras = talalat + strlen(mit); // a találat utánra lépünk
-    }
-    strcat(cel, forras); // maradék átmásolása
+void csere(char *cel, char *forras, char *mit, char *mire) {
+	*cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
+	char *talalat = strstr(forras, mit);
+	while (talalat != NULL) {
+		strncat(cel, forras, talalat - forras); // a találatig átmásolunk mindent
+		strcat(cel, mire); // a találat helyett a cseresztringet írjuk
+		forras = talalat + strlen(mit); // a találat utánra lépünk
+		talalat = strstr(forras, mit);
+	}
+	strcat(cel, forras); // maradék átmásolása
 }
 ```
 </details>
