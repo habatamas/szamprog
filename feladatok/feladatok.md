@@ -2908,34 +2908,23 @@ int szavak(char *str){
  <summary>megoldás:</summary>
  
 ```C
-#define BETUT_VAR 0
-#define SZOKOZT_VAR 1
+int szamok(char *str) {
+	int szamlalo = 0;
+	char elozo = ' '; // előző karakter
 
-int szavak(char *str){
-    // állapotgépes megoldás
-    int szamlalo = 0;
-    int allapot = BETUT_VAR;
-    
-    while(*str != '\0') {
-        switch(allapot){
-            case BETUT_VAR:
-                if(*str != ' ' && *str != '\t' && *str != '\n'){
-                    allapot = SZOKOZT_VAR;
-                    szamlalo++;
-                }
-                break;
-                
-            case SZOKOZT_VAR:
-                if(*str == ' ' || *str == '\t' || *str == '\n'){
-                    allapot = BETUT_VAR;
-                }
-                break;
-        }
-        
-        str++;
-    }
-    
-    return szamlalo;
+	while (*str != '\0') {
+		// ha az előző karakter nem számjegy, de a mostani igen
+		if ( (elozo<'0' || '9'<elozo) && ('0' <= *str && *str<='9') ) {
+			// akkor újabb számot találtunk
+			szamlalo++;
+		}
+
+		elozo = *str;
+		str++;
+	}
+
+	return szamlalo;
+}
 }
 ```
 </details>
