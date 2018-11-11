@@ -2665,12 +2665,13 @@ void sajat_strcat(char *cel, char *forras){
     *cel = '\0'; // lezáró nulla!
 }
 
-char *sajat_strchr(char *str, char ch){
-    while(*str != '\0'){
-        if(*str == ch)
-            return str;
-    }
-    return NULL;
+char *sajat_strchr(char *str, char ch) {
+	while (*str != '\0') {
+		if (*str == ch)
+			return str;
+		str++;
+	}
+	return NULL;
 }
 ```
 </details>
@@ -2695,8 +2696,9 @@ int kezdodik(char *sztring, char *kezdet){
  <summary>megoldás:</summary>
  
 ```C
-void reszsztring(char *cel, char *forras, int kezdet, int hossz){
-    strncpy(cel, forras+kezdet, hossz);
+void reszsztring(char *cel, char *forras, int kezdet, int hossz) {
+	strncpy(cel, forras + kezdet, hossz);
+	cel[hossz] = '\0';
 }
 ```
 </details>
