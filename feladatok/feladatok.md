@@ -2665,12 +2665,13 @@ void sajat_strcat(char *cel, char *forras){
     *cel = '\0'; // lezáró nulla!
 }
 
-char *sajat_strchr(char *str, char ch){
-    while(*str != '\0'){
-        if(*str == ch)
-            return str;
-    }
-    return NULL;
+char *sajat_strchr(char *str, char ch) {
+	while (*str != '\0') {
+		if (*str == ch)
+			return str;
+		str++;
+	}
+	return NULL;
 }
 ```
 </details>
@@ -2695,8 +2696,9 @@ int kezdodik(char *sztring, char *kezdet){
  <summary>megoldás:</summary>
  
 ```C
-void reszsztring(char *cel, char *forras, int kezdet, int hossz){
-    strncpy(cel, forras+kezdet, hossz);
+void reszsztring(char *cel, char *forras, int kezdet, int hossz) {
+	strncpy(cel, forras + kezdet, hossz);
+	cel[hossz] = '\0';
 }
 ```
 </details>
@@ -2742,15 +2744,16 @@ int talalatok_szama(char *miben, char *mit){
  <summary>megoldás:</summary>
  
 ```C
-void csere(char *cel, char *forras, char *mit, char *mire){
-    *cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
-    char *talalat = strstr(forras, mit);
-    while(talalat != NULL){
-        strncat(cel, forras, talalat-forras); // a találatig átmásolunk mindent
-        strcat(cel, mire); // a találat helyett a cseresztringet írjuk
-        forras = talalat + strlen(mit); // a találat utánra lépünk
-    }
-    strcat(cel, forras); // maradék átmásolása
+void csere(char *cel, char *forras, char *mit, char *mire) {
+	*cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
+	char *talalat = strstr(forras, mit);
+	while (talalat != NULL) {
+		strncat(cel, forras, talalat - forras); // a találatig átmásolunk mindent
+		strcat(cel, mire); // a találat helyett a cseresztringet írjuk
+		forras = talalat + strlen(mit); // a találat utánra lépünk
+		talalat = strstr(forras, mit);
+	}
+	strcat(cel, forras); // maradék átmásolása
 }
 ```
 </details>
@@ -2908,34 +2911,23 @@ int szavak(char *str){
  <summary>megoldás:</summary>
  
 ```C
-#define BETUT_VAR 0
-#define SZOKOZT_VAR 1
+int szamok(char *str) {
+	int szamlalo = 0;
+	char elozo = ' '; // előző karakter
 
-int szavak(char *str){
-    // állapotgépes megoldás
-    int szamlalo = 0;
-    int allapot = BETUT_VAR;
-    
-    while(*str != '\0') {
-        switch(allapot){
-            case BETUT_VAR:
-                if(*str != ' ' && *str != '\t' && *str != '\n'){
-                    allapot = SZOKOZT_VAR;
-                    szamlalo++;
-                }
-                break;
-                
-            case SZOKOZT_VAR:
-                if(*str == ' ' || *str == '\t' || *str == '\n'){
-                    allapot = BETUT_VAR;
-                }
-                break;
-        }
-        
-        str++;
-    }
-    
-    return szamlalo;
+	while (*str != '\0') {
+		// ha az előző karakter nem számjegy, de a mostani igen
+		if ( (elozo<'0' || '9'<elozo) && ('0' <= *str && *str<='9') ) {
+			// akkor újabb számot találtunk
+			szamlalo++;
+		}
+
+		elozo = *str;
+		str++;
+	}
+
+	return szamlalo;
+}
 }
 ```
 </details>
