@@ -934,3 +934,52 @@ Gyakran egyszerű és kényelmes sztringekből az adatok kinyerése és adott fo
 sscanf(str, formátum, ...);
 sprintf(str, formátum, ...);
 ```
+
+## Dinamikus memóriakezelés
+
+Gyakran előfordul, hogy a program készítésekor nem lehet tudni, mennyi adatot kell feldolgozni. A korábban ismertetett tömböknek mindig meg kellett adni a méretüket, ez sok gyakorlati esetben jelent korlátot. A dinamikus memóriakezelés azt jelenti, hogy a szükséges memóriaterületet futás közben lehet foglalni és felszabadítani.
+
+A dinamikus memóriakezelésben használt műveletkhez az alábbi include szükséges:
+
+```C
+#include <stdlib.h>
+```
+
+### Memória foglalása és felszabadítása, void* típusú pointer, sizeof kulcsszó
+
+A malloc függvény paraméterként a foglalandó területet méretét kapja meg bájtokban mérve, és visszatér a lefoglalt memóriaterület kezdőcímével. A visszatérési érték egy speciális pointertípus, a void*. Ez a típus arra utal, hogy a terület bármilyen célra felhasználható. A foglalt memória használathoz át kell kasztolni ezt a címet a kívánt tíőusra.  A lefoglalt terület mindaddig használható, amíg fel nincs szabadítva. 
+
+A felszabadítást a free függvény végzi, amely paraméterként a foglalt terület kezdőcímét kapja. A felszabadítást soha nem szabad lehagyni!
+
+A foglalandó méret számításakor szükség van az egyes adattípusok méretére. Erre a sizeof kulcsszó használható, ami a paraméterként megadott adattípus méretét bájtokban adja vissza.
+
+Használati példa:
+
+```C
+// 20 valós számnak foglalunk helyet
+double *szamok = (double*)malloc( 20 * sizeof(double) ); // átkasztolás, adattag méretének meghatározása
+
+/*
+(ezután úgy is lehet kezelni ezt a területet, mint egy tömb)
+                          ...
+                          ...
+*/
+
+// használat után felszabadítás
+free(szamok); // mindig a kezdőcímet kell megadni (amit a malloc eredetileg visszaadott)!
+```
+
+### Memória másolása
+
+Gyakran fordul elő, hogy adott számú bájtot akarunk másolni egyik foglalt területből a másikba. Ezt természetesen egy for ciklussal is meg lehetne tenni, de van beépített másolófüggvény is:
+
+```C
+/**
+ * Átmásol adott számú bájtot egyik memóriaterületről a másikra.
+ * Paraméterek:
+ *     cel:    pointer oda, ahova másolni szeretnénk
+ *     forras: pointer oda, ahonnan másolni szeretnénk
+ *     n:      átmásolandó bájtok száma
+ */
+memcpy(cel, forras, n);
+```
