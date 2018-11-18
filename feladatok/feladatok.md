@@ -1048,9 +1048,9 @@ A beirt szamok:
 double szamok[10];
 int meret = 10;
 for (int i = 0; i < meret; i++) {
-	double uj_szam;
-	printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
-	szamok[i] = uj_szam;
+    double uj_szam;
+    printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
+    szamok[i] = uj_szam;
 }
 ```
 </details>
@@ -1158,20 +1158,20 @@ A program kérjen be 10 valós számot, majd írja ki a mediánt.
 double szamok[10];
 int meret=10;
 for (int i = 0; i < meret; i++) {
-	double uj_szam;
-	printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
-	szamok[i] = uj_szam;
+    double uj_szam;
+    printf("%d. szam: ", i + 1); scanf("%lf", &uj_szam);
+    szamok[i] = uj_szam;
 }
 
 // rendezés
 for (int meddig = meret - 2; meddig >= 0; meddig--) {
-	for (int i = 0; i <= meddig; i++) {
-		if (szamok[i] > szamok[i + 1]) {
-			double tmp = szamok[i];
-			szamok[i] = szamok[i + 1];
-			szamok[i + 1] = tmp;
-		}
-	}
+    for (int i = 0; i <= meddig; i++) {
+        if (szamok[i] > szamok[i + 1]) {
+            double tmp = szamok[i];
+            szamok[i] = szamok[i + 1];
+            szamok[i + 1] = tmp;
+        }
+    }
 }
 
 // medián számítás definíció szerint
@@ -1179,10 +1179,10 @@ for (int meddig = meret - 2; meddig >= 0; meddig--) {
    szükséges az esetszétválasztás páros és páratlan elemszámra. */
 double median;
 if (meret % 2 == 0) {
-	median = (szamok[meret / 2 - 1] + szamok[meret / 2]) / 2; // középső kettő átlaga
+    median = (szamok[meret / 2 - 1] + szamok[meret / 2]) / 2; // középső kettő átlaga
 }
 else {
-	median = szamok[(meret - 1) / 2]; // középső elem
+    median = szamok[(meret - 1) / 2]; // középső elem
 }
 
 printf("median: %g\n", median);
@@ -1211,49 +1211,49 @@ struct kartya {
 };
 
 int main(){
-	// adott egy kártya valamilyen értékkel
-	struct kartya k;
-	k.szin = 3; // pikk
-	k.szam = 12; // dáma
-	
-	// szín kiírása
-	switch(k.szin){
-	    case 0:
-    	    printf("treff ");
-    	    break;
-	    case 1:
-    	    printf("karo ");
-    	    break;
-	    case 2:
-    	    printf("kor ");
-    	    break;
-	    case 3:
-    	    printf("pikk ");
-    	    break;
-	}
-	
-	// szám kiírása
-	switch(k.szam){
-	    // speciális esetben
-	    case 11:
-    	    printf("J\n");
-    	    break;
-	    case 12:
-    	    printf("Q\n");
-    	    break;
-	    case 13:
-    	    printf("K\n");
-    	    break;
-	    case 14:
-    	    printf("A\n");
-    	    break;
-    	// alapeset: sima szám
-    	default:
-    	    printf("%d\n", k.szam);
-	}
-	
-	_getch();
-	return 0;
+    // adott egy kártya valamilyen értékkel
+    struct kartya k;
+    k.szin = 3; // pikk
+    k.szam = 12; // dáma
+    
+    // szín kiírása
+    switch(k.szin){
+        case 0:
+            printf("treff ");
+            break;
+        case 1:
+            printf("karo ");
+            break;
+        case 2:
+            printf("kor ");
+            break;
+        case 3:
+            printf("pikk ");
+            break;
+    }
+    
+    // szám kiírása
+    switch(k.szam){
+        // speciális esetben
+        case 11:
+            printf("J\n");
+            break;
+        case 12:
+            printf("Q\n");
+            break;
+        case 13:
+            printf("K\n");
+            break;
+        case 14:
+            printf("A\n");
+            break;
+        // alapeset: sima szám
+        default:
+            printf("%d\n", k.szam);
+    }
+    
+    _getch();
+    return 0;
 }
 ```
 </details>
@@ -1284,53 +1284,53 @@ a ket legkozelebbi pont:
 
 // 3D-s pont struktúrája
 struct pont3d {
-	double x, y, z;
+    double x, y, z;
 };
 
 int main() {
-	// pontok beolvasása
-	struct pont3d pontok[5];
-	for (int i = 0; i < 5; i++) {
-		double x, y, z;
-		printf("%d. pont: ", i + 1); scanf("%lf;%lf;%lf", &x, &y, &z);
-		pontok[i].x = x;
-		pontok[i].y = y;
-		pontok[i].z = z;
-	}
+    // pontok beolvasása
+    struct pont3d pontok[5];
+    for (int i = 0; i < 5; i++) {
+        double x, y, z;
+        printf("%d. pont: ", i + 1); scanf("%lf;%lf;%lf", &x, &y, &z);
+        pontok[i].x = x;
+        pontok[i].y = y;
+        pontok[i].z = z;
+    }
 
-	// a legelső csúcstartó pontpár az első kettő
-	struct pont3d egyik = pontok[0], masik = pontok[1];
-	/* euklideszi távolság kell, de a minimumkereséshez nem is kell belőle
-	   gyököt vonni */
-	double min_tavolsag_negyzet = (egyik.x - masik.x)*(egyik.x - masik.x) +
-		(egyik.y - masik.y)*(egyik.y - masik.y) +
-		(egyik.z - masik.z)*(egyik.z - masik.z);
+    // a legelső csúcstartó pontpár az első kettő
+    struct pont3d egyik = pontok[0], masik = pontok[1];
+    /* euklideszi távolság kell, de a minimumkereséshez nem is kell belőle
+       gyököt vonni */
+    double min_tavolsag_negyzet = (egyik.x - masik.x)*(egyik.x - masik.x) +
+        (egyik.y - masik.y)*(egyik.y - masik.y) +
+        (egyik.z - masik.z)*(egyik.z - masik.z);
 
-	// összes kombináció tesztelése
-	for (int i = 0; i < 5; i++) {
-		for (int j = i + 1; j < 5; j++) {
-			// távolságnégyzet kiszámítása az új pontpárra
-			double tavolsag_negyzet =
-				(pontok[i].x - pontok[j].x)*(pontok[i].x - pontok[j].x) +
-				(pontok[i].y - pontok[j].y)*(pontok[i].y - pontok[j].y) +
-				(pontok[i].z - pontok[j].z)*(pontok[i].z - pontok[j].z);
+    // összes kombináció tesztelése
+    for (int i = 0; i < 5; i++) {
+        for (int j = i + 1; j < 5; j++) {
+            // távolságnégyzet kiszámítása az új pontpárra
+            double tavolsag_negyzet =
+                (pontok[i].x - pontok[j].x)*(pontok[i].x - pontok[j].x) +
+                (pontok[i].y - pontok[j].y)*(pontok[i].y - pontok[j].y) +
+                (pontok[i].z - pontok[j].z)*(pontok[i].z - pontok[j].z);
 
-			// ha kisebb, akkor az új pontpár lesz a csúcstartó
-			if (tavolsag_negyzet < min_tavolsag_negyzet) {
-				egyik = pontok[i];
-				masik = pontok[j];
-				min_tavolsag_negyzet = tavolsag_negyzet;
-			}
-		}
-	}
+            // ha kisebb, akkor az új pontpár lesz a csúcstartó
+            if (tavolsag_negyzet < min_tavolsag_negyzet) {
+                egyik = pontok[i];
+                masik = pontok[j];
+                min_tavolsag_negyzet = tavolsag_negyzet;
+            }
+        }
+    }
 
-	// eredmény kiírása
-	printf("a ket legkozelebbi pont:\n");
-	printf("(%g; %g; %g)\n", egyik.x, egyik.y, egyik.z);
-	printf("(%g; %g; %g)\n", masik.x, masik.y, masik.z);
+    // eredmény kiírása
+    printf("a ket legkozelebbi pont:\n");
+    printf("(%g; %g; %g)\n", egyik.x, egyik.y, egyik.z);
+    printf("(%g; %g; %g)\n", masik.x, masik.y, masik.z);
 
-	_getch();
-	return 0;
+    _getch();
+    return 0;
 }
 ```
 </details>
@@ -1390,7 +1390,7 @@ int main(){
     else
         printf("szorzat: %g+%gi\n", szorzat.re, szorzat.im);
     
-	_getch();
+    _getch();
     return 0;
 }
 ```
@@ -1952,7 +1952,7 @@ Célszerű a működési példa és az állapotábra alapján dolgozni.
 
 <details>
 <summary>összeadás példa:</summary>
-	
+    
 ```
 Az összeadás a következő:
  010011
@@ -1971,7 +1971,7 @@ Az összeadás a következő:
 
 <details>
 <summary>működési példa:</summary>
-	
+    
 ```
 bemenet: 1
 bemenet: 1
@@ -2666,12 +2666,12 @@ void sajat_strcat(char *cel, char *forras){
 }
 
 char *sajat_strchr(char *str, char ch) {
-	while (*str != '\0') {
-		if (*str == ch)
-			return str;
-		str++;
-	}
-	return NULL;
+    while (*str != '\0') {
+        if (*str == ch)
+            return str;
+        str++;
+    }
+    return NULL;
 }
 ```
 </details>
@@ -2697,8 +2697,8 @@ int kezdodik(char *sztring, char *kezdet){
  
 ```C
 void reszsztring(char *cel, char *forras, int kezdet, int hossz) {
-	strncpy(cel, forras + kezdet, hossz);
-	cel[hossz] = '\0';
+    strncpy(cel, forras + kezdet, hossz);
+    cel[hossz] = '\0';
 }
 ```
 </details>
@@ -2745,15 +2745,15 @@ int talalatok_szama(char *miben, char *mit){
  
 ```C
 void csere(char *cel, char *forras, char *mit, char *mire) {
-	*cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
-	char *talalat = strstr(forras, mit);
-	while (talalat != NULL) {
-		strncat(cel, forras, talalat - forras); // a találatig átmásolunk mindent
-		strcat(cel, mire); // a találat helyett a cseresztringet írjuk
-		forras = talalat + strlen(mit); // a találat utánra lépünk
-		talalat = strstr(forras, mit);
-	}
-	strcat(cel, forras); // maradék átmásolása
+    *cel = '\0'; // üres legyen a sztring, mert innentől minden strcat
+    char *talalat = strstr(forras, mit);
+    while (talalat != NULL) {
+        strncat(cel, forras, talalat - forras); // a találatig átmásolunk mindent
+        strcat(cel, mire); // a találat helyett a cseresztringet írjuk
+        forras = talalat + strlen(mit); // a találat utánra lépünk
+        talalat = strstr(forras, mit);
+    }
+    strcat(cel, forras); // maradék átmásolása
 }
 ```
 </details>
@@ -2912,21 +2912,21 @@ int szavak(char *str){
  
 ```C
 int szamok(char *str) {
-	int szamlalo = 0;
-	char elozo = ' '; // előző karakter
+    int szamlalo = 0;
+    char elozo = ' '; // előző karakter
 
-	while (*str != '\0') {
-		// ha az előző karakter nem számjegy, de a mostani igen
-		if ( (elozo<'0' || '9'<elozo) && ('0' <= *str && *str<='9') ) {
-			// akkor újabb számot találtunk
-			szamlalo++;
-		}
+    while (*str != '\0') {
+        // ha az előző karakter nem számjegy, de a mostani igen
+        if ( (elozo<'0' || '9'<elozo) && ('0' <= *str && *str<='9') ) {
+            // akkor újabb számot találtunk
+            szamlalo++;
+        }
 
-		elozo = *str;
-		str++;
-	}
+        elozo = *str;
+        str++;
+    }
 
-	return szamlalo;
+    return szamlalo;
 }
 }
 ```
@@ -3022,33 +3022,33 @@ int darab = 0;
 
 // számok beolvasása egyesével
 while (1) {
-	// szám bekérése
-	double szam;
-	printf("Irj be egy szamot: ");
-	if (scanf("%lf", &szam) != 1)
-		break;
+    // szám bekérése
+    double szam;
+    printf("Irj be egy szamot: ");
+    if (scanf("%lf", &szam) != 1)
+        break;
 
-	// ha már betelt az összes hely, akkor újrafoglalás
-	if (meret == darab) {
-		int uj_meret = meret + 10;
-		double *uj_szamok = (double*)malloc(uj_meret * sizeof(double)); // új, nagyobb tömb foglalása
-		memcpy(uj_szamok, szamok, meret * sizeof(double)); // régi adatok átmásolása
-		free(szamok); // régi tömb felszabadítása
-		szamok = uj_szamok; // pointer frissítése
-		meret = uj_meret; // méret frissítése
-	}
+    // ha már betelt az összes hely, akkor újrafoglalás
+    if (meret == darab) {
+        int uj_meret = meret + 10;
+        double *uj_szamok = (double*)malloc(uj_meret * sizeof(double)); // új, nagyobb tömb foglalása
+        memcpy(uj_szamok, szamok, meret * sizeof(double)); // régi adatok átmásolása
+        free(szamok); // régi tömb felszabadítása
+        szamok = uj_szamok; // pointer frissítése
+        meret = uj_meret; // méret frissítése
+    }
 
-	// új szám hozzáírása az eddigiekhez
-	szamok[darab] = szam;
-	darab++;
+    // új szám hozzáírása az eddigiekhez
+    szamok[darab] = szam;
+    darab++;
 }
 
 /*
-	* itt lehet kezelni a tömböt, stb..., most csak kiírom az elemeket ellenőrzésképp
-	*/
+    * itt lehet kezelni a tömböt, stb..., most csak kiírom az elemeket ellenőrzésképp
+    */
 for (int i = 0; i < darab; i++) printf("%g ", szamok[i]);
 
-	
+    
 // felszabadítás!
 free(szamok);
 ```
@@ -3071,30 +3071,30 @@ char *csere(char *miben, char *mit, char *mire){
  
 ```C
 char *csere(char *forras, char *mit, char *mire) {
-	// előfordulások száma
-	int hanyszor = 0;
-	char *munkapeldany = forras; // munkapéldány készítése
-	while (strstr(munkapeldany, mit) != NULL) {
-		munkapeldany = strstr(munkapeldany, mit) + strlen(mit);
-		hanyszor++;
-	}
+    // előfordulások száma
+    int hanyszor = 0;
+    char *munkapeldany = forras; // munkapéldány készítése
+    while (strstr(munkapeldany, mit) != NULL) {
+        munkapeldany = strstr(munkapeldany, mit) + strlen(mit);
+        hanyszor++;
+    }
 
-	// célsztring foglalása
-	char *cel = (char *)malloc(strlen(forras) + hanyszor * (strlen(mire) - strlen(mit)) + 1); // lezáró nullának is kell hely!
+    // célsztring foglalása
+    char *cel = (char *)malloc(strlen(forras) + hanyszor * (strlen(mire) - strlen(mit)) + 1); // lezáró nullának is kell hely!
 
-	// csere elvégzése
-	*cel = '\0';
-	char *talalat = strstr(forras, mit);
-	while (talalat != NULL) {
-		strncat(cel, forras, talalat - forras);
-		strcat(cel, mire);
-		forras = talalat + strlen(mit);
-		talalat = strstr(forras, mit);
-	}
-	strcat(cel, forras);
+    // csere elvégzése
+    *cel = '\0';
+    char *talalat = strstr(forras, mit);
+    while (talalat != NULL) {
+        strncat(cel, forras, talalat - forras);
+        strcat(cel, mire);
+        forras = talalat + strlen(mit);
+        talalat = strstr(forras, mit);
+    }
+    strcat(cel, forras);
 
-	// visszatérés a foglalt sztringgel
-	return cel;
+    // visszatérés a foglalt sztringgel
+    return cel;
 }
 ```
 </details>
@@ -3107,10 +3107,10 @@ char *csere(char *forras, char *mit, char *mire) {
  
 ```C
 char *reszsztring(char *sztring, int honnan, int meret) {
-	char *eredmeny = (char*)malloc(meret + 1);
-	strncpy(eredmeny, sztring + honnan, meret);
-	eredmeny[meret] = '\0'; // strcpy miatt manuálisan kell lezárni a sztringet!
-	return eredmeny;
+    char *eredmeny = (char*)malloc(meret + 1);
+    strncpy(eredmeny, sztring + honnan, meret);
+    eredmeny[meret] = '\0'; // strcpy miatt manuálisan kell lezárni a sztringet!
+    return eredmeny;
 }
 ```
 </details>
@@ -3123,39 +3123,39 @@ char *reszsztring(char *sztring, int honnan, int meret) {
  
 ```C
 char *sor_beolvas() {
-	// helyfoglalás a sornak
-	int meret = 10;
-	char *sor = (char*)malloc(meret);
-	int hossz = 0;
+    // helyfoglalás a sornak
+    int meret = 10;
+    char *sor = (char*)malloc(meret);
+    int hossz = 0;
 
-	// beolvasás, amíg lehet
-	while (1) {
-		// beolvasás
-		char ch;
-		scanf("%c", &ch);
+    // beolvasás, amíg lehet
+    while (1) {
+        // beolvasás
+        char ch;
+        scanf("%c", &ch);
 
-		// ha sorvége van, akkor nem folytatjuk
-		if (ch == '\n')
-			break;
+        // ha sorvége van, akkor nem folytatjuk
+        if (ch == '\n')
+            break;
 
-		// ha a sor betelt (lezáró nullával együtt), nagyobb hely foglalása
-		if (hossz + 1 == meret) {
-			int uj_meret = meret + 10;
-			char *uj_sor = (char*)malloc(uj_meret); // új tömb foglalása
-			memcpy(uj_sor, sor, meret); // régi adatok átmásolása
-			free(sor); // régi tömb felszabadítása
-			sor = uj_sor; // sor frissítése
-			meret = uj_meret; // méret frissítése
-		}
+        // ha a sor betelt (lezáró nullával együtt), nagyobb hely foglalása
+        if (hossz + 1 == meret) {
+            int uj_meret = meret + 10;
+            char *uj_sor = (char*)malloc(uj_meret); // új tömb foglalása
+            memcpy(uj_sor, sor, meret); // régi adatok átmásolása
+            free(sor); // régi tömb felszabadítása
+            sor = uj_sor; // sor frissítése
+            meret = uj_meret; // méret frissítése
+        }
 
-		// karakter hozzáírása a tömbhöz
-		sor[hossz] = ch;
-		hossz++;
-	}
+        // karakter hozzáírása a tömbhöz
+        sor[hossz] = ch;
+        hossz++;
+    }
 
-	// sztring lezárása és visszatérés
-	sor[hossz] = '\0';
-	return sor;
+    // sztring lezárása és visszatérés
+    sor[hossz] = '\0';
+    return sor;
 }
 ```
 </details>
@@ -3168,47 +3168,47 @@ Egészítsd ki az előző függvényt úgy, hogy fájlból tudjon sort beolvasni
  
 ```C
 char *sor_beolvas(FILE *file) {
-	// helyfoglalás a sornak
-	int meret = 10;
-	char *sor = (char*)malloc(meret);
-	int hossz = 0;
+    // helyfoglalás a sornak
+    int meret = 10;
+    char *sor = (char*)malloc(meret);
+    int hossz = 0;
 
-	// beolvasás, amíg lehet
-	while (1) {
-		// beolvasás
-		char ch;
-		int siker = fscanf(file, "%c", &ch);
+    // beolvasás, amíg lehet
+    while (1) {
+        // beolvasás
+        char ch;
+        int siker = fscanf(file, "%c", &ch);
 
-		// speciális eset: nem tudunk semmit beolvasni
-		if (siker != 1 && hossz == 0) {
-			// memória felszabadítása
-			free(sor);
-			// ilyenkor NULL-al térünk vissza
-			return NULL;
-		}
+        // speciális eset: nem tudunk semmit beolvasni
+        if (siker != 1 && hossz == 0) {
+            // memória felszabadítása
+            free(sor);
+            // ilyenkor NULL-al térünk vissza
+            return NULL;
+        }
 
-		// ha vége a fájlnak vagy a sornak, akkor nem folytatjuk
-		if (ch == '\n' || siker!=1)
-			break;
+        // ha vége a fájlnak vagy a sornak, akkor nem folytatjuk
+        if (ch == '\n' || siker!=1)
+            break;
 
-		// ha a sor betelt (lezáró nullával együtt), nagyobb hely foglalása
-		if (hossz + 1 == meret) {
-			int uj_meret = meret + 10;
-			char *uj_sor = (char*)malloc(uj_meret); // új tömb foglalása
-			memcpy(uj_sor, sor, meret); // régi adatok átmásolása
-			free(sor); // régi tömb felszabadítása
-			sor = uj_sor; // sor frissítése
-			meret = uj_meret; // méret frissítése
-		}
+        // ha a sor betelt (lezáró nullával együtt), nagyobb hely foglalása
+        if (hossz + 1 == meret) {
+            int uj_meret = meret + 10;
+            char *uj_sor = (char*)malloc(uj_meret); // új tömb foglalása
+            memcpy(uj_sor, sor, meret); // régi adatok átmásolása
+            free(sor); // régi tömb felszabadítása
+            sor = uj_sor; // sor frissítése
+            meret = uj_meret; // méret frissítése
+        }
 
-		// karakter hozzáírása a tömbhöz
-		sor[hossz] = ch;
-		hossz++;
-	}
+        // karakter hozzáírása a tömbhöz
+        sor[hossz] = ch;
+        hossz++;
+    }
 
-	// sztring lezárása és visszatérés
-	sor[hossz] = '\0';
-	return sor;
+    // sztring lezárása és visszatérés
+    sor[hossz] = '\0';
+    return sor;
 }
 ```
 </details>
@@ -3221,10 +3221,10 @@ char *sor_beolvas(FILE *file) {
  
 ```C
 double *hozzafuz(double *tomb, int n, double uj_elem) {
-	double *uj_tomb = (double*)malloc((n + 1) * sizeof(double));
-	memcpy(uj_tomb, tomb, n * sizeof(double));
-	uj_tomb[n] = uj_elem;
-	return uj_tomb;
+    double *uj_tomb = (double*)malloc((n + 1) * sizeof(double));
+    memcpy(uj_tomb, tomb, n * sizeof(double));
+    uj_tomb[n] = uj_elem;
+    return uj_tomb;
 }
 ```
 </details>
@@ -3237,11 +3237,11 @@ A feladat az előzőhöz hasonló, de a függvény tetszőleges indexű elem el�
  
 ```C
 double *beszur(double *tomb, int n, double uj_elem, int hova) {
-	double *uj_tomb = (double*)malloc((n + 1) * sizeof(double));
-	memcpy(uj_tomb, tomb, hova * sizeof(double));
-	uj_tomb[hova] = uj_elem;
-	memcpy(uj_tomb + hova + 1, tomb+hova, (n - hova) * sizeof(double));
-	return uj_tomb;
+    double *uj_tomb = (double*)malloc((n + 1) * sizeof(double));
+    memcpy(uj_tomb, tomb, hova * sizeof(double));
+    uj_tomb[hova] = uj_elem;
+    memcpy(uj_tomb + hova + 1, tomb+hova, (n - hova) * sizeof(double));
+    return uj_tomb;
 }
 ```
 </details>
@@ -3254,10 +3254,10 @@ double *beszur(double *tomb, int n, double uj_elem, int hova) {
  
 ```C
 double *torol(double *tomb, int n, int torlendo) {
-	double *uj_tomb = (double*)malloc((n - 1) * sizeof(double));
-	memcpy(uj_tomb, tomb, torlendo * sizeof(double));
-	memcpy(uj_tomb + torlendo, tomb + torlendo + 1, (n - torlendo - 1) * sizeof(double));
-	return uj_tomb;
+    double *uj_tomb = (double*)malloc((n - 1) * sizeof(double));
+    memcpy(uj_tomb, tomb, torlendo * sizeof(double));
+    memcpy(uj_tomb + torlendo, tomb + torlendo + 1, (n - torlendo - 1) * sizeof(double));
+    return uj_tomb;
 }
 ```
 </details>
@@ -3270,11 +3270,11 @@ double *torol(double *tomb, int n, int torlendo) {
  
 ```C
 char *osszefuz(char *str1, char *str2) {
-	char *uj_str = (char*)malloc(strlen(str1) + strlen(str2) + 1); // lezáró nulla!
-	*uj_str = '\0';
-	strcat(uj_str, str1);
-	strcat(uj_str, str2);
-	return uj_str;
+    char *uj_str = (char*)malloc(strlen(str1) + strlen(str2) + 1); // lezáró nulla!
+    *uj_str = '\0';
+    strcat(uj_str, str1);
+    strcat(uj_str, str2);
+    return uj_str;
 }
 ```
 </details>
@@ -3287,32 +3287,32 @@ char *osszefuz(char *str1, char *str2) {
  
 ```C
 char **darabol(char *sztring, char *elvalaszto) {
-	// darabok számának meghatározása (előfordulások száma + 1)
-	int darabok_szama = 1;
-	char *munkapeldany = sztring; // munkapéldány készítése
-	while (strstr(munkapeldany, elvalaszto) != NULL) {
-		munkapeldany = strstr(munkapeldany, elvalaszto) + strlen(elvalaszto);
-		darabok_szama++;
-	}
+    // darabok számának meghatározása (előfordulások száma + 1)
+    int darabok_szama = 1;
+    char *munkapeldany = sztring; // munkapéldány készítése
+    while (strstr(munkapeldany, elvalaszto) != NULL) {
+        munkapeldany = strstr(munkapeldany, elvalaszto) + strlen(elvalaszto);
+        darabok_szama++;
+    }
 
-	// helyfoglalás a darabokat tartalmazó tömbnek, utolsó elem NULL
-	char **darabok = (char **)malloc((darabok_szama + 1) * sizeof(char*));
-	darabok[darabok_szama] = NULL;
+    // helyfoglalás a darabokat tartalmazó tömbnek, utolsó elem NULL
+    char **darabok = (char **)malloc((darabok_szama + 1) * sizeof(char*));
+    darabok[darabok_szama] = NULL;
 
-	// darabolás
-	for (int i = 0; i < darabok_szama-1; i++) {
-		char *talalat = strstr(sztring, elvalaszto);
-		darabok[i] = (char*)malloc(talalat - sztring + 1); // helyfoglalás a darabnak lezáró nullával
-		strncpy(darabok[i], sztring, talalat - sztring); // darab beírása
-		darabok[i][talalat - sztring] = '\0'; // lezáró nulla
-		sztring = talalat + strlen(elvalaszto);
+    // darabolás
+    for (int i = 0; i < darabok_szama-1; i++) {
+        char *talalat = strstr(sztring, elvalaszto);
+        darabok[i] = (char*)malloc(talalat - sztring + 1); // helyfoglalás a darabnak lezáró nullával
+        strncpy(darabok[i], sztring, talalat - sztring); // darab beírása
+        darabok[i][talalat - sztring] = '\0'; // lezáró nulla
+        sztring = talalat + strlen(elvalaszto);
 
-	}
-	// az utolsó darabot külön kell kezelni, hisz akkor már nincs elválasztó karakter
-	darabok[darabok_szama - 1] = (char*)malloc(strlen(sztring) + 1);
-	strcpy(darabok[darabok_szama - 1], sztring);
+    }
+    // az utolsó darabot külön kell kezelni, hisz akkor már nincs elválasztó karakter
+    darabok[darabok_szama - 1] = (char*)malloc(strlen(sztring) + 1);
+    strcpy(darabok[darabok_szama - 1], sztring);
 
-	return darabok;
+    return darabok;
 }
 ```
 </details>
