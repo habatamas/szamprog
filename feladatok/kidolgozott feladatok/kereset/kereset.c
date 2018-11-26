@@ -4,107 +4,153 @@
 #include <stdlib.h>
 #include <string.h>
 
-// sor beolvasása fájlból dinamikusan foglalt sztringbe
-char *sor_beolvas(FILE *file) {
-	// helyfoglalás a sornak
+// malloc és free ellenõrzéséhez
+int malloc_szamlalo = 0;
+int free_szamlalo = 0;
+void *sajat_malloc(int meret) {
+	malloc_szamlalo++;
+	return malloc(meret);
+}
+void sajat_free(void *mem) {
+	free_szamlalo++;
+	free(mem);
+}
+#define malloc sajat_malloc
+#define free sajat_free
+
+// egy sort beolvas egy fájlból dinamikus sztringbe
+// ha sikerül: visszatér a sztringgel (dinamikus)
+// ha nem sikerül: visszatér NULL pointerrel
+char *sorbeolvas(FILE *file) {
+	// kezdeti tömb foglalása
 	int meret = 10;
 	char *sor = (char*)malloc(meret);
 	int hossz = 0;
 
-	// beolvasás, amíg lehet
+	// karakterenkénti beolvasás
 	while (1) {
-		// beolvasás
+		// egy karakter beolvasása
 		char ch;
 		int siker = fscanf(file, "%c", &ch);
 
-		// speciális eset: nem tudunk semmit beolvasni
+		// vége van a fájlnak?
 		if (siker != 1 && hossz == 0) {
-			// memória felszabadítása
 			free(sor);
-			// ilyenkor NULL-al térünk vissza
 			return NULL;
 		}
 
-		// ha vége a fájlnak vagy a sornak, akkor nem folytatjuk
+		// vége van a sornak?
 		if (ch == '\n' || siker != 1)
 			break;
 
-		// ha a sor betelt (lezáró nullával együtt), nagyobb hely foglalása
-		if (hossz + 1 == meret) {
+		// megtelt a sor?
+		if (hossz == meret - 1) {
+			// új terület foglalása
 			int uj_meret = meret + 10;
-			char *uj_sor = (char*)malloc(uj_meret); // új tömb foglalása
-			memcpy(uj_sor, sor, meret); // régi adatok átmásolása
-			free(sor); // régi tömb felszabadítása
+			char *uj_sor = (char*)malloc(uj_meret); // új terület
+			memcpy(uj_sor, sor, meret); // régi adatok átmentése
+			free(sor); // régi terület felszabadításas
 			sor = uj_sor; // sor frissítése
 			meret = uj_meret; // méret frissítése
 		}
 
-		// karakter hozzáírása a tömbhöz
+		// karakter hozzáfûzése
 		sor[hossz] = ch;
 		hossz++;
 	}
 
-	// sztring lezárása és visszatérés
+	// lezáró \0
 	sor[hossz] = '\0';
+
 	return sor;
 }
 
-// sztring kettévágása: az eredeti sztringet lefejezi, a maradékkal visszatér
-char *kettevag(char *mit, char *elvalaszto) {
-	char *talalat = strstr(mit, elvalaszto);
+// sztring kettévágó: eredeti sztringet lefejezi
+// visszatér a maradékkal
+// ha nem vágható ketté, null pointert ad vissza
+char *kettevag(char *str, char *elvalaszto) {
+	char *talalat = strstr(str, elvalaszto);
 	if (talalat == NULL)
 		return NULL;
 	*talalat = '\0';
 	return talalat + strlen(elvalaszto);
 }
 
-int main(void)
-{
+// http://users.hszk.bme.hu/~ht1520/emberek.csv
+int main(void) {
 	// fájl megnyitása
 	FILE *f = fopen("emberek.csv", "r");
 
-	printf("30 evnel fiatalabbak:\n");
-
-	// változók a statisztikához
-	int emberek_szama = 0;
+	// változók statisztikához
 	int emberek_szama_50_felett = 0;
 	int osszkereset_50_felett = 0;
-	int emberek_szama_500_feletti_keresettel = 0;
+	int emberek_szama = 0;
+	int emberek_szama_500_felett = 0;
 
-	// beolvasás soronként
-	char *sor = sor_beolvas(f);
+	// maximumkereséshez
+	int elso = 1;
+	char *legtobbet_kereso = NULL; // itt azért kellett valami kezdeti érték, mert a fordító kiabált
+	int legnagyobb_kereset;
+
+	// soronként beolvassuk
+	printf("30 evnel fiatalabb:\n");
+	char *sor = sorbeolvas(f);
 	while (sor != NULL) {
-		// adatok kinyerése darabolással
+		// sor beolvasása és értelmezése
 		char *nev = sor;
 		char *maradek = kettevag(sor, ",");
 		int kor, kereset;
 		sscanf(maradek, "%d,%d", &kor, &kereset);
 
-		// ha 30 évnél fiatalabb, kiírjuk
+		// maximumkeresés
+		if (elso) {
+			// a legelsõ embert speciálisan kezeljük
+			elso = 0;
+			legtobbet_kereso = (char*)malloc(strlen(nev) + 1);
+			strcpy(legtobbet_kereso, nev);
+			legnagyobb_kereset = kereset;
+		}
+		else if (kereset > legnagyobb_kereset) {
+			free(legtobbet_kereso);
+			legtobbet_kereso = (char*)malloc(strlen(nev) + 1);
+			strcpy(legtobbet_kereso, nev);
+			legnagyobb_kereset = kereset;
+		}
+
+		// 30 évnél fiatalabb?
 		if (kor < 30)
 			printf("    %s\n", nev);
 
-		// számlálás
-		emberek_szama++;
+		// 50 évnél idõsebb?
 		if (kor > 50) {
 			emberek_szama_50_felett++;
 			osszkereset_50_felett += kereset;
 		}
-		if (kereset > 500)
-			emberek_szama_500_feletti_keresettel++;
 
-		// követkzekõ sor beolvasása
+		// számlálás
+		emberek_szama++;
+
+		// 500 felett keres?
+		if (kereset > 500)
+			emberek_szama_500_felett++;
+
+		// következõ sor beolvasása
 		free(sor);
-		sor = sor_beolvas(f);
+		sor = sorbeolvas(f);
 	}
+
+	// eredmények kiírása
+	printf("atlagkereset 50 ev felett: %g\n", (double)osszkereset_50_felett / emberek_szama_50_felett);
+	printf("emberek szama: %d\n", emberek_szama);
+	printf("az emberek %g%%-a keres 500 felett\n", 100.0*emberek_szama_500_felett / emberek_szama);
+	printf("%s keresi a legtobbet, keresete: %d\n", legtobbet_kereso, legnagyobb_kereset);
+	free(legtobbet_kereso);
 
 	// fájl bezárása
 	fclose(f);
 
-	// eredmények kiírása
-	printf("Emberek szama: %d\n", emberek_szama);
-	printf("50 evnel idosebbek atlagkeresete: %f\n", (double)osszkereset_50_felett / emberek_szama_50_felett);
-	printf("Az emberek %g%%-a keres 500-nal tobbet\n", 100.0*emberek_szama_500_feletti_keresettel / emberek_szama);
+	// ugyanannyit foglaltunk, mint amennyit felszabadítottunk?
+	printf("malloc: %d free: %d\n", malloc_szamlalo, free_szamlalo);
 
 	_getch();
 	return 0;
