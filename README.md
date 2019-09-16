@@ -3,7 +3,7 @@
 
 ## Hasznos segédanyagok
 
-[MThe C Programming Language](https://www.dipmat.univpm.it/~demeio/public/the_c_programming_language_2.pdf)
+[The C Programming Language](https://www.dipmat.univpm.it/~demeio/public/the_c_programming_language_2.pdf)
 
 [InfoC](https://infoc.eet.bme.hu/)
 
