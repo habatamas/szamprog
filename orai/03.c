@@ -1,120 +1,124 @@
 #define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h>
 #include <conio.h>
-#include <math.h>
-
-typedef unsigned char byte; // ez egy 8 bites szám, 0..255
-// char típus: 8 bites, -128..127
-
 
 
 int main(void)
 {
-	byte a = 0b00010010; // bináris
-	byte b = 0b10111000; // hexa
-	// és      0001 0000     10
-	// vagy    1011 1010     ba
-	// xor     1010 1010     aa
-	// ~a      1110 1101     ed
-	// a<<2    0100 1000     48
-	// a>>2    0000 0100     04
+	// ZH Ã­rÃ¡s
+	int jegy;
+	do {
+		printf("hanyas ZH-t irtal? ");
+		scanf("%d", &jegy);
+	} while (jegy<2);
 
-	printf("%d\n%d\n", a, b);
-	printf("%x\n%x\n", a, b);
+	// kiindulunk egy szÃ¡mbÃ³l
+	// ha pÃ¡ros, akkor felezzÃ¼k
+	// ha pÃ¡ratlan, akkor triplÃ¡zzuk +1
+	printf("irj be egy szamot: ");
+	int a;
+	scanf("%d", &a);
+	while (a != 1) {
+		printf("%d\n", a);
+		if (a % 2 == 0)
+			a /= 2; // ua. mint a = a/2;
+		else
+			a = 3 * a + 1;
+	}
 
-	byte eredmeny;
-	eredmeny = a & b;
-	eredmeny = a | b;
-	eredmeny = a ^ b;
-	eredmeny = ~a;
-	eredmeny = a << 2;
-	eredmeny = a >> 2;
+	// elsÅ‘ 100 prÃ­mszÃ¡m
+	int primek_szama = 0;
+	int szam2 = 1;
+	while(primek_szama<100) {
+		// feltÃ©telezzÃ¼k, hogy az aktuÃ¡lis szÃ¡m prÃ­m
+		int primszam = 1;
+		for (int i = 2; i * i <= szam2; i++) {
+			if (szam2 % i == 0) {
+				// de ha talÃ¡lunk osztÃ³t, akkor nem prÃ­m
+				primszam = 0;
+				break; // kiugrunk a ciklusbÃ³l
+			}
+		}
+		if (primszam && szam2 >= 2) {
+			printf("   %d\n", szam2);
+			primek_szama++;
+		}
+		szam2++;
+	}
 
-	// maszk: azt mondja meg, hogy melyik biteken
-	// végezzük el az alábbi mûveletek valamelyikét:
-	//		adott bitek beállítása 1-re (set)
-	//		adott bitek törlése (0-ra állíás, reset/clear)
-	//		adott bitek megfordítása (toggle)
+	// adott szÃ¡mnak az osztÃ³i, hÃ¡ny osztÃ³ja van?
+	printf("irj be szamot: ");
+	int szam;
+	int osztok_szama=0;
+	scanf("%d", &szam);
+	for (int i = 1; i <= szam; i++) {
+		if (szam % i == 0) {
+			printf("    osztoja: %d\n", i);
+			osztok_szama++;
+		}
+	}
+	printf("osztok szama: %d\n", osztok_szama);
+	if (osztok_szama == 2)
+		printf("ez egy primszam\n");
+	else
+		printf("ez nem primszam\n");
 
-	byte c =     0b11010110;
-	byte maszk = 0b00011001; 
-	// set       0b1101 1111  0xdf
-	// ~maszk    0b1110 0110  0xe6
-	// clear     0b1100 0110  0xc6
-	// toggle    0b1100 1111  0xcf
+	// 1-100-ig egÃ©sz szÃ¡mok Ã¶sszege
+	int sum = 0;
+	for (int i = 1; i <= 100; i++) {
+		sum += i; // ua: sum = sum + i;
+	}
+	printf("szamok osszege 1..100-ig: %d\n", sum);
 
-	// 0&a = 0
-	// 1&a = a
+	// vÃ¡lasztÃ¡si lehetÅ‘sÃ©g (pl. menÃ¼rendszernÃ©l)
+	printf("1. menupont: Szamprog\n");
+	printf("2. menupont: Gepszerk\n");
+	printf("3. menupont: Matematika G1\n");
+	printf("Milyen orad lesz? ");
 
-	byte eredmeny_set = c | maszk;
-	byte eredmeny_clear = c & (~maszk);
-	byte eredmeny_toggle = c ^ maszk;
+	int valasztas;
+	scanf("%d", &valasztas);
 
-	// adott számú biten mûveletvégzés
-	byte eredmeny_5_set = c | (1 << 5); // maszk: 0b00100000
-	byte eredmeny_5_clear = c & ~(1 << 5); // ~(1 << 5)  ==  ~0b00100000 == 0b11011111
-	byte eredmeny_5_toggle = c ^ (1 << 5);
+	switch(valasztas){
+	case 1:
+		printf("szintaxishiba\n");
+		break;
+	case 2:
+		printf("konturhiba\n");
+		break;
+	case 3:
+		printf("ora eleji idezet\n");
+		break;
+	default:
+		printf("nincs ilyen opcio\n");
+		break;
+	}
 
+	// szÃ¡mok 1-10
+	int cnt = 1;
+	while (cnt <= 10) {
+		printf("%d\n", cnt);
+		cnt++;
+	}
 	
-	// 2-es bit: LED
-	// 3-ös bit: rakéta kilövése
-	byte vezerlo_regiszter = 0b00000000;
 
-	// feladat: LED bekapcsolása
-	vezerlo_regiszter |= (1 << 2); // maszk: 0b00000100
-	// elvi hiba: vezerlo_regiszter = vezerlo_regiszter + (1 << 2);
+	printf("ugyanez for ciklussal:\n");
+	for (int i = 1; i <= 10; i++)
+		printf("%d\n", i);
 
-	// világít-e LED?
-	if (vezerlo_regiszter & (1<<2) ) {
-		printf("LED vilagit\n");
+	// PIN kÃ³d beolvasÃ¡s
+	int beirt_pin;
+	printf("PIN: ");
+	scanf("%d", &beirt_pin);
+
+	// feltÃ©teles elÃ¡gazÃ¡s
+	if (beirt_pin == 1871) {
+		printf("Helyes PIN kod.\n");
 	} else {
-		printf("LED nem vilagit\n");
+		printf("Hibas PIN kod.\n");
 	}
 
-	// kilõttük-e a rakétát?
-	if (vezerlo_regiszter & (1 << 3)) {
-		printf("raketa kilove\n");
-	}
-	else {
-		printf("raketa nincs kilove\n");
-	}
 
-	// vezerlo_regiszter binárisan
-	printf("vezerlo_regiszter = 0b");
-
-	if (vezerlo_regiszter & (1 << 7)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 6)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 5)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 4)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 3)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 2)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 1)) printf("1"); else printf("0");
-	if (vezerlo_regiszter & (1 << 0)) printf("1"); else printf("0");
-
-	// ezt senki ne használja:
-	printf("\n0b%d%d%d%d%d%d%d%d\n", 
-		vezerlo_regiszter / 128 % 2,
-		vezerlo_regiszter / 64 % 2,
-		vezerlo_regiszter / 32 % 2,
-		vezerlo_regiszter / 16 % 2,
-		vezerlo_regiszter / 8 % 2,
-		vezerlo_regiszter / 4 % 2,
-		vezerlo_regiszter / 2 % 2,
-		vezerlo_regiszter%2
-		);
-
-	// komplex szám trig -> alg
-	double r = 3;
-	double theta = 3.5;
-
-	// algebrai alak
-	double im = r * sin(theta);
-	double re = r * cos(theta);
-	// arctan(im/re) =  theta
-
-	// alg -> trig
-	double r2 = sqrt(re*re + im*im);
-	double theta2 = atan2(im,re);
-
+	_getch();
 	return 0;
 }
