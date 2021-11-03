@@ -26,8 +26,8 @@
 7. hét:  bitműveletek, állapotgépek [jegyzet](jegyzet/07.md) / [feladatok](feladatok/07.md)
 8. hét:  pointerek, függvények, rekurzió [jegyzet](jegyzet/09.md) / [feladatok](feladatok/09.md)
 9. hét:  fájlkezelés [jegyzet](jegyzet/10.md) / [feladatok](feladatok/10.md)
-10. hét:  sztringkezelés [jegyzet](jegyzet/11.md) / [feladatok](feladatok/11.md)
-11. hét:  2. ZH
+10. hét:  2. ZH
+11. hét:  sztringkezelés [jegyzet](jegyzet/11.md) / [feladatok](feladatok/11.md)
 12. hét:  dinamikus memóriakezelés [jegyzet](jegyzet/12.md) / [feladatok](feladatok/12.md)
 13. hét:  gyakorlás
 14. hét:  3. ZH
